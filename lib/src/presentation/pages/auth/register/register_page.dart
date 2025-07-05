@@ -24,10 +24,7 @@ class RegisterPage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Image.network(
-                      "https://cdn.cosmos.so/a54ba03d-dc54-4a19-b0fb-0b2daeba2c77?format=jpeg",
-                      height: 100,
-                    ),
+                    child: Image.asset("assets/img/logo.jpg", height: 100),
                   ),
                   SizedBox(height: constraints.maxHeight * 0.08),
                   Text(

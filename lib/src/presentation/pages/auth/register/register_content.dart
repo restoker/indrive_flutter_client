@@ -42,7 +42,7 @@ class RegisterContent extends StatelessWidget {
               fillColor: Color(0xFFF5FCF9),
               contentPadding: EdgeInsets.symmetric(
                 horizontal: 16.0 * 1.5,
-                vertical: 16.0,
+                vertical: 8.0,
               ),
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
@@ -64,7 +64,7 @@ class RegisterContent extends StatelessWidget {
               fillColor: Color(0xFFF5FCF9),
               contentPadding: EdgeInsets.symmetric(
                 horizontal: 16.0 * 1.5,
-                vertical: 16.0,
+                vertical: 8.0,
               ),
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
@@ -87,7 +87,7 @@ class RegisterContent extends StatelessWidget {
                 fillColor: Color(0xFFF5FCF9),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 16.0 * 1.5,
-                  vertical: 16.0,
+                  vertical: 8.0,
                 ),
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
@@ -101,7 +101,7 @@ class RegisterContent extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            padding: const EdgeInsets.only(bottom: 20.0),
             child: TextFormField(
               style: TextStyle(fontSize: 18),
               decoration: const InputDecoration(
@@ -111,7 +111,7 @@ class RegisterContent extends StatelessWidget {
                 fillColor: Color(0xFFF5FCF9),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 16.0 * 1.5,
-                  vertical: 16.0,
+                  vertical: 8.0,
                 ),
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
