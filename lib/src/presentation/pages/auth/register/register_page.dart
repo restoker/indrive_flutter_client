@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/register/register_content.dart';
+import 'package:rive/rive.dart' as rive;
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
@@ -13,31 +16,62 @@ class RegisterPage extends StatelessWidget {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  SizedBox(height: constraints.maxHeight * 0.08),
-                  Card(
-                    clipBehavior: Clip.antiAlias,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Image.asset("assets/img/logo.jpg", height: 100),
+            return Stack(
+              children: [
+                Positioned(
+                  bottom: 200,
+                  left: 100,
+                  width: MediaQuery.of(context).size.width * 1.7,
+                  child: Image.asset(
+                    "assets/img/Spline.png",
+                    fit: BoxFit.cover,
                   ),
-                  SizedBox(height: constraints.maxHeight * 0.08),
-                  Text(
-                    "Registro",
-                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 29,
+                ),
+                Positioned.fill(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 10),
+                    child: Container(
+                      color: Colors.white.withValues(alpha: 0.1),
                     ),
                   ),
-                  SizedBox(height: constraints.maxHeight * 0.05),
-                  RegisterContent(formKey: _formKey),
-                ],
-              ),
+                ),
+                rive.RiveAnimation.asset("assets/RiveAssets/shapes.riv"),
+                Positioned.fill(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                    child: Container(
+                      color: Colors.white.withValues(alpha: 0.4),
+                    ),
+                  ),
+                ),
+                SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    children: [
+                      SizedBox(height: constraints.maxHeight * 0.08),
+                      Card(
+                        clipBehavior: Clip.antiAlias,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Image.asset("assets/img/logo.jpg", height: 100),
+                      ),
+                      SizedBox(height: constraints.maxHeight * 0.08),
+                      Text(
+                        "Registro",
+                        style: Theme.of(context).textTheme.headlineSmall!
+                            .copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 29,
+                            ),
+                      ),
+                      SizedBox(height: constraints.maxHeight * 0.05),
+                      RegisterContent(formKey: _formKey),
+                    ],
+                  ),
+                ),
+              ],
             );
           },
         ),
