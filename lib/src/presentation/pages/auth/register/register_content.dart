@@ -15,16 +15,36 @@ class RegisterContent extends StatelessWidget {
           TextFormField(
             style: TextStyle(fontSize: 18),
             decoration: const InputDecoration(
-              hintText: 'Nombre completo',
-              hintStyle: TextStyle(fontSize: 18),
+              prefixIcon: Icon(Icons.person),
+              label: Text('Nombre completo', style: TextStyle(fontSize: 18)),
               filled: true,
               fillColor: Color(0xFFF5FCF9),
               contentPadding: EdgeInsets.symmetric(
                 horizontal: 16.0 * 1.5,
-                vertical: 16.0,
+                vertical: 8.0,
               ),
               border: OutlineInputBorder(
-                borderSide: BorderSide.none,
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 2,
+                  style: BorderStyle.solid,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 2,
+                  style: BorderStyle.solid,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color.fromARGB(255, 62, 227, 156),
+                  width: 2,
+                  style: BorderStyle.solid,
+                ),
                 borderRadius: BorderRadius.all(Radius.circular(50)),
               ),
             ),
@@ -36,8 +56,8 @@ class RegisterContent extends StatelessWidget {
           TextFormField(
             style: TextStyle(fontSize: 18),
             decoration: const InputDecoration(
-              hintText: 'Teléfono',
-              hintStyle: TextStyle(fontSize: 18),
+              prefixIcon: Icon(Icons.phone),
+              label: Text('Teléfono', style: TextStyle(fontSize: 18)),
               filled: true,
               fillColor: Color(0xFFF5FCF9),
               contentPadding: EdgeInsets.symmetric(
@@ -45,7 +65,27 @@ class RegisterContent extends StatelessWidget {
                 vertical: 8.0,
               ),
               border: OutlineInputBorder(
-                borderSide: BorderSide.none,
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 2,
+                  style: BorderStyle.solid,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 2,
+                  style: BorderStyle.solid,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color.fromARGB(255, 62, 227, 156),
+                  width: 2,
+                  style: BorderStyle.solid,
+                ),
                 borderRadius: BorderRadius.all(Radius.circular(50)),
               ),
             ),
@@ -58,8 +98,8 @@ class RegisterContent extends StatelessWidget {
           TextFormField(
             style: TextStyle(fontSize: 18),
             decoration: const InputDecoration(
-              hintText: 'Email',
-              hintStyle: TextStyle(fontSize: 18),
+              prefixIcon: Icon(Icons.email),
+              label: Text('Email', style: TextStyle(fontSize: 18)),
               filled: true,
               fillColor: Color(0xFFF5FCF9),
               contentPadding: EdgeInsets.symmetric(
@@ -67,7 +107,27 @@ class RegisterContent extends StatelessWidget {
                 vertical: 8.0,
               ),
               border: OutlineInputBorder(
-                borderSide: BorderSide.none,
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 2,
+                  style: BorderStyle.solid,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 2,
+                  style: BorderStyle.solid,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color.fromARGB(255, 62, 227, 156),
+                  width: 2,
+                  style: BorderStyle.solid,
+                ),
                 borderRadius: BorderRadius.all(Radius.circular(50)),
               ),
             ),
@@ -80,9 +140,13 @@ class RegisterContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: TextFormField(
               style: TextStyle(fontSize: 18),
-              decoration: const InputDecoration(
-                hintText: 'Contraseña',
-                hintStyle: TextStyle(fontSize: 18),
+              decoration: InputDecoration(
+                label: Text('Contraseña', style: TextStyle(fontSize: 18)),
+                prefixIcon: Icon(Icons.lock_clock_outlined),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.visibility),
+                  onPressed: () {},
+                ),
                 filled: true,
                 fillColor: Color(0xFFF5FCF9),
                 contentPadding: EdgeInsets.symmetric(
@@ -90,7 +154,27 @@ class RegisterContent extends StatelessWidget {
                   vertical: 8.0,
                 ),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                    style: BorderStyle.solid,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                    style: BorderStyle.solid,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color.fromARGB(255, 62, 227, 156),
+                    width: 2,
+                    style: BorderStyle.solid,
+                  ),
                   borderRadius: BorderRadius.all(Radius.circular(50)),
                 ),
               ),
@@ -104,9 +188,16 @@ class RegisterContent extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 20.0),
             child: TextFormField(
               style: TextStyle(fontSize: 18),
-              decoration: const InputDecoration(
-                hintText: 'Confirmar contraseña',
-                hintStyle: TextStyle(fontSize: 18),
+              decoration: InputDecoration(
+                label: Text(
+                  'Confirmar contraseña',
+                  style: TextStyle(fontSize: 18),
+                ),
+                prefixIcon: Icon(Icons.lock_clock_outlined),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.visibility),
+                  onPressed: () {},
+                ),
                 filled: true,
                 fillColor: Color(0xFFF5FCF9),
                 contentPadding: EdgeInsets.symmetric(
@@ -114,7 +205,27 @@ class RegisterContent extends StatelessWidget {
                   vertical: 8.0,
                 ),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                    style: BorderStyle.solid,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                    style: BorderStyle.solid,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color.fromARGB(255, 62, 227, 156),
+                    width: 2,
+                    style: BorderStyle.solid,
+                  ),
                   borderRadius: BorderRadius.all(Radius.circular(50)),
                 ),
               ),
@@ -139,7 +250,7 @@ class RegisterContent extends StatelessWidget {
                 minimumSize: const Size(double.infinity, 48),
                 shape: const StadiumBorder(),
               ),
-              child: const Text("Registrarse", style: TextStyle(fontSize: 18)),
+              child: const Text("Registrarse", style: TextStyle(fontSize: 20)),
             ),
           ),
           TextButton(
@@ -149,7 +260,7 @@ class RegisterContent extends StatelessWidget {
             ),
             child: Text.rich(
               const TextSpan(
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, color: Colors.black),
                 text: "Ya tienes una cuenta? ",
                 children: [
                   TextSpan(

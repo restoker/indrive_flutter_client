@@ -13,6 +13,8 @@ class LoginContent extends StatelessWidget {
         TextFormField(
           style: TextStyle(fontSize: 18),
           decoration: InputDecoration(
+            label: Text('Email', style: TextStyle(fontSize: 18)),
+            prefixIcon: Icon(Icons.email),
             hintText: 'Email',
             hintStyle: TextStyle(fontSize: 18),
             filled: true,
@@ -22,7 +24,27 @@ class LoginContent extends StatelessWidget {
               vertical: 16.0,
             ),
             border: OutlineInputBorder(
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(
+                color: Colors.grey,
+                width: 2,
+                style: BorderStyle.solid,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.grey,
+                width: 2,
+                style: BorderStyle.solid,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Color.fromARGB(255, 62, 227, 156),
+                width: 2,
+                style: BorderStyle.solid,
+              ),
               borderRadius: BorderRadius.all(Radius.circular(50)),
             ),
           ),
@@ -37,7 +59,13 @@ class LoginContent extends StatelessWidget {
             style: TextStyle(fontSize: 18),
             obscureText: true,
             decoration: InputDecoration(
-              hintText: 'Password',
+              label: Text('Contraseña', style: TextStyle(fontSize: 18)),
+              prefixIcon: Icon(Icons.lock),
+              suffixIcon: IconButton(
+                icon: Icon(Icons.visibility),
+                onPressed: () {},
+              ),
+              hintText: 'Contraseña',
               hintStyle: TextStyle(fontSize: 18),
               filled: true,
               fillColor: Color(0xFFF5FCF9),
@@ -46,7 +74,27 @@ class LoginContent extends StatelessWidget {
                 vertical: 16.0,
               ),
               border: OutlineInputBorder(
-                borderSide: BorderSide.none,
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 2,
+                  style: BorderStyle.solid,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 2,
+                  style: BorderStyle.solid,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color.fromARGB(255, 62, 227, 156),
+                  width: 2,
+                  style: BorderStyle.solid,
+                ),
                 borderRadius: BorderRadius.all(Radius.circular(50)),
               ),
             ),
@@ -69,7 +117,7 @@ class LoginContent extends StatelessWidget {
             minimumSize: const Size(double.infinity, 48),
             shape: const StadiumBorder(),
           ),
-          child: const Text("Ingresar", style: TextStyle(fontSize: 18)),
+          child: const Text("Ingresar", style: TextStyle(fontSize: 20)),
         ),
         const SizedBox(height: 16.0),
         TextButton(
@@ -79,7 +127,7 @@ class LoginContent extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: Theme.of(
                 context,
-              ).textTheme.bodyLarge!.color!.withValues(alpha: 0.64),
+              ).textTheme.bodyLarge!.color!.withValues(alpha: 0.94),
               fontSize: 16,
             ),
           ),
@@ -93,6 +141,7 @@ class LoginContent extends StatelessWidget {
           },
           child: Text.rich(
             const TextSpan(
+              style: TextStyle(fontSize: 16, color: Colors.black),
               text: "¿No tienes una cuenta? ",
               children: [
                 TextSpan(
@@ -101,11 +150,9 @@ class LoginContent extends StatelessWidget {
                 ),
               ],
             ),
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: Theme.of(
-                context,
-              ).textTheme.bodyLarge!.color!.withValues(alpha: 0.64),
+            style: TextStyle(
               fontSize: 16,
+              color: const Color.fromARGB(215, 0, 0, 0).withAlpha(128),
             ),
           ),
         ),
