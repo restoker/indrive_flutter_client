@@ -7,9 +7,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Material App',
-      home: LoginPage(),
+      title: 'Recicle App',
       debugShowCheckedModeBanner: false,
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
+      },
     );
   }
 }

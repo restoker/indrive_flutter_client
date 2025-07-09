@@ -134,10 +134,7 @@ class LoginContent extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => RegisterPage()),
-            );
+            Navigator.pushNamed(context, '/register');
           },
           child: Text.rich(
             const TextSpan(

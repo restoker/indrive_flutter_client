@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/register/register_content.dart';
 import 'package:rive/rive.dart' as rive;
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   RegisterPage({super.key});
 
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
 
   @override
