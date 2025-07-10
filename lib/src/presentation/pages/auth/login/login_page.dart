@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:indrive_flutter_client/src/presentation/pages/auth/login/bloc/login_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/login/login_content.dart';
 import 'package:rive/rive.dart' as rive;
 
@@ -11,7 +13,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,9 +71,13 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                       ),
                       SizedBox(height: constraints.maxHeight * 0.05),
-                      Form(
-                        key: _formKey,
-                        child: LoginContent(formKey: _formKey),
+                      BlocBuilder<LoginBloc, LoginState>(
+                        builder: (context, state) {
+                          return Form(
+                            key: state.formKey,
+                            child: LoginContent(),
+                          );
+                        },
                       ),
                     ],
                   ),

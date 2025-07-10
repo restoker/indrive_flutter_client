@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:indrive_flutter_client/src/presentation/pages/auth/register/register_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:indrive_flutter_client/src/presentation/pages/auth/login/bloc/login_bloc.dart';
 
 class LoginContent extends StatelessWidget {
-  const LoginContent({super.key, required this.formKey});
-
-  final GlobalKey<FormState> formKey;
+  const LoginContent({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loginBloc = context.watch<LoginBloc>();
+    final email = loginBloc.state.email;
+    final password = loginBloc.state.password;
+
     return Column(
       children: [
         TextFormField(
           style: TextStyle(fontSize: 18),
           decoration: InputDecoration(
+            errorText: email.errorMessage,
             label: Text('Email', style: TextStyle(fontSize: 18)),
             prefixIcon: Icon(Icons.email),
             hintText: 'Email',
@@ -49,8 +53,8 @@ class LoginContent extends StatelessWidget {
             ),
           ),
           keyboardType: TextInputType.emailAddress,
-          onSaved: (email) {
-            // Save it
+          onChanged: (email) {
+            loginBloc.add(EmailChanged(email: email));
           },
         ),
         Padding(
@@ -59,6 +63,7 @@ class LoginContent extends StatelessWidget {
             style: TextStyle(fontSize: 18),
             obscureText: true,
             decoration: InputDecoration(
+              errorText: password.errorMessage,
               label: Text('Contraseña', style: TextStyle(fontSize: 18)),
               prefixIcon: Icon(Icons.lock),
               suffixIcon: IconButton(
@@ -98,17 +103,14 @@ class LoginContent extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(50)),
               ),
             ),
-            onSaved: (password) {
-              // Save it
+            onChanged: (password) {
+              loginBloc.add(PasswordChanged(password: password));
             },
           ),
         ),
         ElevatedButton(
           onPressed: () {
-            if (formKey.currentState!.validate()) {
-              formKey.currentState!.save();
-              // Navigate to the main screen
-            }
+            loginBloc.add(LoginSubmitEvent());
           },
           style: ElevatedButton.styleFrom(
             elevation: 0,
@@ -121,7 +123,9 @@ class LoginContent extends StatelessWidget {
         ),
         const SizedBox(height: 16.0),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            loginBloc.add(LoginSubmitEvent());
+          },
           child: Text(
             '¿Olvidaste tu contraseña?',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(

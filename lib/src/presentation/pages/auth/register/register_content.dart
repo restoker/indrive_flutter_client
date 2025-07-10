@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:indrive_flutter_client/src/presentation/pages/auth/login/login_page.dart';
 
 class RegisterContent extends StatelessWidget {
   const RegisterContent({super.key, required this.formKey});
