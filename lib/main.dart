@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/login/bloc/login_bloc.dart';
+import 'package:indrive_flutter_client/src/presentation/pages/auth/register/bloc/register_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/router.dart';
 
 void main() {
@@ -16,6 +17,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => LoginBloc()..add(LoginInitEvent())),
+        BlocProvider(
+          create: (context) => RegisterBloc()..add(RegisterInitEvent()),
+        ),
       ],
       child: MaterialApp(
         title: 'Recicle App',

@@ -56,6 +56,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     if (state.isValid) {
       // hacer peticion
+      inspect(state);
     } else {
       // mostrar mensaje de error
       emit(state.copyWith(formStatus: FormStatus.invalid));
