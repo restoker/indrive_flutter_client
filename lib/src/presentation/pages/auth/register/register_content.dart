@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:indrive_flutter_client/src/presentation/pages/auth/register/bloc/register_bloc.dart';
 
 class RegisterContent extends StatelessWidget {
-  const RegisterContent({super.key, required this.formKey});
-
-  final GlobalKey<FormState> formKey;
+  const RegisterContent({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final registerBloc = context.watch<RegisterBloc>();
+    final formKey = registerBloc.state.formKey;
+    final nombre = registerBloc.state.nombre;
+    final telefono = registerBloc.state.telefono;
+    final email = registerBloc.state.email;
+    final password = registerBloc.state.password;
+    final confirmarPassword = registerBloc.state.confirmarPassword;
+
     return Form(
       key: formKey,
       child: Column(
         children: [
           TextFormField(
             style: TextStyle(fontSize: 18),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
+              errorText: nombre.errorMessage,
               prefixIcon: Icon(Icons.person),
               label: Text('Nombre completo', style: TextStyle(fontSize: 18)),
               filled: true,
@@ -47,14 +56,15 @@ class RegisterContent extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(50)),
               ),
             ),
-            onSaved: (name) {
-              // Save it
+            onChanged: (nombre) {
+              registerBloc.add(RegisterNombreChanged(nombre: nombre));
             },
           ),
           const SizedBox(height: 16.0),
           TextFormField(
             style: TextStyle(fontSize: 18),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
+              errorText: telefono.errorMessage,
               prefixIcon: Icon(Icons.phone),
               label: Text('Teléfono', style: TextStyle(fontSize: 18)),
               filled: true,
@@ -89,14 +99,15 @@ class RegisterContent extends StatelessWidget {
               ),
             ),
             keyboardType: TextInputType.phone,
-            onSaved: (phone) {
-              // Save it
+            onChanged: (telefono) {
+              registerBloc.add(RegisterTelefonoChanged(telefono: telefono));
             },
           ),
           const SizedBox(height: 16.0),
           TextFormField(
             style: TextStyle(fontSize: 18),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
+              errorText: email.errorMessage,
               prefixIcon: Icon(Icons.email),
               label: Text('Email', style: TextStyle(fontSize: 18)),
               filled: true,
@@ -131,8 +142,8 @@ class RegisterContent extends StatelessWidget {
               ),
             ),
             keyboardType: TextInputType.emailAddress,
-            onSaved: (email) {
-              // Save it
+            onChanged: (email) {
+              registerBloc.add(RegisterEmailChanged(email: email));
             },
           ),
           Padding(
@@ -140,6 +151,7 @@ class RegisterContent extends StatelessWidget {
             child: TextFormField(
               style: TextStyle(fontSize: 18),
               decoration: InputDecoration(
+                errorText: password.errorMessage,
                 label: Text('Contraseña', style: TextStyle(fontSize: 18)),
                 prefixIcon: Icon(Icons.lock_clock_outlined),
                 suffixIcon: IconButton(
@@ -178,8 +190,8 @@ class RegisterContent extends StatelessWidget {
                 ),
               ),
               obscureText: true,
-              onSaved: (passaword) {
-                // Save it
+              onChanged: (password) {
+                registerBloc.add(RegisterPasswordChanged(password: password));
               },
             ),
           ),
@@ -188,6 +200,7 @@ class RegisterContent extends StatelessWidget {
             child: TextFormField(
               style: TextStyle(fontSize: 18),
               decoration: InputDecoration(
+                errorText: confirmarPassword.errorMessage,
                 label: Text(
                   'Confirmar contraseña',
                   style: TextStyle(fontSize: 18),
@@ -229,8 +242,12 @@ class RegisterContent extends StatelessWidget {
                 ),
               ),
               obscureText: true,
-              onSaved: (confirmPassword) {
-                // Save it
+              onChanged: (confirmPassword) {
+                registerBloc.add(
+                  RegisterConfirmarPasswordChanged(
+                    confirmarPassword: confirmPassword,
+                  ),
+                );
               },
             ),
           ),
@@ -238,9 +255,7 @@ class RegisterContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
               onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  formKey.currentState!.save();
-                }
+                registerBloc.add(RegisterSubmit());
               },
               style: ElevatedButton.styleFrom(
                 elevation: 0,

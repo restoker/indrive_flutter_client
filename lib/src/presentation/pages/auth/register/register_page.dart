@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:indrive_flutter_client/src/presentation/pages/auth/register/bloc/register_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/register/register_content.dart';
 import 'package:rive/rive.dart' as rive;
 
@@ -12,8 +14,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +72,11 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                       ),
                       SizedBox(height: constraints.maxHeight * 0.05),
-                      RegisterContent(formKey: _formKey),
+                      BlocBuilder<RegisterBloc, RegisterState>(
+                        builder: (context, state) {
+                          return RegisterContent();
+                        },
+                      ),
                     ],
                   ),
                 ),

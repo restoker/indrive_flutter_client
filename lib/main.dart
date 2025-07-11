@@ -24,11 +24,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Recicle App',
         debugShowCheckedModeBanner: false,
-        initialRoute: 'login',
+        initialRoute: '/login',
         theme: ThemeData(useMaterial3: true),
         routes: {
-          'login': (context) => LoginPage(),
-          'register': (context) => RegisterPage(),
+          '/login': (context) => LoginPage(),
+          '/register': (context) => RegisterPage(),
         },
       ),
     );
