@@ -72,10 +72,13 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                       ),
                       SizedBox(height: constraints.maxHeight * 0.05),
-                      BlocBuilder<RegisterBloc, RegisterState>(
-                        builder: (context, state) {
-                          return RegisterContent();
-                        },
+                      BlocListener<RegisterBloc, RegisterState>(
+                        listener: (context, state) {},
+                        child: BlocBuilder<RegisterBloc, RegisterState>(
+                          builder: (context, state) {
+                            return RegisterContent();
+                          },
+                        ),
                       ),
                     ],
                   ),

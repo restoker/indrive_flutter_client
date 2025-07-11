@@ -9,6 +9,7 @@ class LoginState extends Equatable {
   final GlobalKey<FormState>? formKey;
   final bool isValid;
   final FormStatus formStatus;
+  final bool passwordReveal;
 
   const LoginState({
     this.email = const Email.pure(),
@@ -16,6 +17,7 @@ class LoginState extends Equatable {
     this.formKey,
     this.isValid = false,
     this.formStatus = FormStatus.invalid,
+    this.passwordReveal = false,
   });
 
   LoginState copyWith({
@@ -24,6 +26,7 @@ class LoginState extends Equatable {
     GlobalKey<FormState>? formKey,
     bool? isValid,
     FormStatus? formStatus,
+    bool? passwordReveal,
   }) {
     return LoginState(
       email: email ?? this.email,
@@ -31,9 +34,16 @@ class LoginState extends Equatable {
       formKey: formKey ?? this.formKey,
       isValid: isValid ?? this.isValid,
       formStatus: formStatus ?? this.formStatus,
+      passwordReveal: passwordReveal ?? this.passwordReveal,
     );
   }
 
   @override
-  List<Object> get props => [email, password, isValid, formStatus];
+  List<Object> get props => [
+    email,
+    password,
+    isValid,
+    formStatus,
+    passwordReveal,
+  ];
 }

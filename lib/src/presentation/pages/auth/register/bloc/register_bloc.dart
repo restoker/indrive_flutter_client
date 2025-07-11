@@ -28,16 +28,43 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<RegisterNombreChanged>(_nombreChanged);
 
     on<RegisterTelefonoChanged>(_telefonoChanged);
+
+    on<TogglePasswordEvent>(_togglePassword);
+
+    on<ToggleConfirmarPasswordEvent>(_toggleConfirmarPassword);
+
+    on<FormReset>(_formReset);
   }
 
   void _registerSubmit(RegisterSubmit event, Emitter<RegisterState> emit) {
-    emit(state.copyWith(formStatus: FormStatus.validating));
+    emit(
+      state.copyWith(
+        email: Email.dirty(state.email.value),
+        nombre: Nombre.dirty(state.nombre.value),
+        telefono: Telefono.dirty(state.telefono.value),
+        password: PasswordRegister.dirty(
+          value: state.password.value,
+          confirmPassword: state.confirmarPassword.value,
+        ),
+        confirmarPassword: ConfirmarPassword.dirty(
+          value: state.confirmarPassword.value,
+          password: state.password.value,
+        ),
+        isValid: Formz.validate([
+          state.email,
+          state.password,
+          state.confirmarPassword,
+          state.nombre,
+          state.telefono,
+        ]),
+        formStatus: FormStatus.validating,
+      ),
+    );
 
     if (state.isValid) {
-      // hacer peticion
       inspect(state);
+      emit(state.copyWith(formStatus: FormStatus.posting));
     } else {
-      // mostrar mensaje de error
       emit(state.copyWith(formStatus: FormStatus.invalid));
     }
   }
@@ -100,7 +127,15 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     RegisterPasswordChanged event,
     Emitter<RegisterState> emit,
   ) {
-    final password = Password.dirty(event.password);
+    inspect(state.confirmarPassword.value);
+    final password = PasswordRegister.dirty(
+      value: event.password,
+      confirmPassword: state.confirmarPassword.value,
+    );
+    final confirmarPassword = ConfirmarPassword.dirty(
+      value: state.confirmarPassword.value,
+      password: event.password,
+    );
     emit(
       state.copyWith(
         password: password,
@@ -108,6 +143,18 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           state.email,
           password,
           state.confirmarPassword,
+          state.nombre,
+          state.telefono,
+        ]),
+      ),
+    );
+    emit(
+      state.copyWith(
+        confirmarPassword: state.confirmarPassword,
+        isValid: Formz.validate([
+          state.email,
+          password,
+          confirmarPassword,
           state.nombre,
           state.telefono,
         ]),
@@ -123,6 +170,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       value: event.confirmarPassword,
       password: state.password.value,
     );
+    final password = PasswordRegister.dirty(
+      value: state.password.value,
+      confirmPassword: event.confirmarPassword,
+    );
     emit(
       state.copyWith(
         confirmarPassword: confirmarPassword,
@@ -135,5 +186,34 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         ]),
       ),
     );
+    emit(
+      state.copyWith(
+        password: state.password,
+        isValid: Formz.validate([
+          state.email,
+          password,
+          confirmarPassword,
+          state.nombre,
+          state.telefono,
+        ]),
+      ),
+    );
+  }
+
+  void _togglePassword(TogglePasswordEvent event, Emitter<RegisterState> emit) {
+    emit(state.copyWith(passwordReveal: !state.passwordReveal));
+  }
+
+  void _toggleConfirmarPassword(
+    ToggleConfirmarPasswordEvent event,
+    Emitter<RegisterState> emit,
+  ) {
+    emit(
+      state.copyWith(confirmarPasswordReveal: !state.confirmarPasswordReveal),
+    );
+  }
+
+  void _formReset(FormReset event, Emitter<RegisterState> emit) {
+    state.formKey?.currentState?.reset();
   }
 }

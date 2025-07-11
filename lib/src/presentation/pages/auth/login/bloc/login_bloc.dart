@@ -22,6 +22,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<PasswordChanged>(_passwordChanged);
 
     on<LoginSubmitEvent>(_loginSubmit);
+
+    on<TogglePasswordEvent>(_togglePassword);
   }
 
   void _emailChanged(EmailChanged event, Emitter<LoginState> emit) {
@@ -61,5 +63,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       // mostrar mensaje de error
       emit(state.copyWith(formStatus: FormStatus.invalid));
     }
+  }
+
+  void _togglePassword(TogglePasswordEvent event, Emitter<LoginState> emit) {
+    emit(state.copyWith(passwordReveal: !state.passwordReveal));
   }
 }

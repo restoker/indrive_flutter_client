@@ -14,6 +14,8 @@ class RegisterContent extends StatelessWidget {
     final email = registerBloc.state.email;
     final password = registerBloc.state.password;
     final confirmarPassword = registerBloc.state.confirmarPassword;
+    final passwordReveal = registerBloc.state.passwordReveal;
+    final confirmarPasswordReveal = registerBloc.state.confirmarPasswordReveal;
 
     return Form(
       key: formKey,
@@ -155,8 +157,10 @@ class RegisterContent extends StatelessWidget {
                 label: Text('Contraseña', style: TextStyle(fontSize: 18)),
                 prefixIcon: Icon(Icons.lock_clock_outlined),
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.visibility),
-                  onPressed: () {},
+                  icon: Icon(
+                    passwordReveal ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: () => registerBloc.add(TogglePasswordEvent()),
                 ),
                 filled: true,
                 fillColor: Color(0xFFF5FCF9),
@@ -189,7 +193,7 @@ class RegisterContent extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(50)),
                 ),
               ),
-              obscureText: true,
+              obscureText: !passwordReveal,
               onChanged: (password) {
                 registerBloc.add(RegisterPasswordChanged(password: password));
               },
@@ -207,8 +211,13 @@ class RegisterContent extends StatelessWidget {
                 ),
                 prefixIcon: Icon(Icons.lock_clock_outlined),
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.visibility),
-                  onPressed: () {},
+                  icon: Icon(
+                    confirmarPasswordReveal
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                  ),
+                  onPressed: () =>
+                      registerBloc.add(ToggleConfirmarPasswordEvent()),
                 ),
                 filled: true,
                 fillColor: Color(0xFFF5FCF9),
@@ -241,7 +250,7 @@ class RegisterContent extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(50)),
                 ),
               ),
-              obscureText: true,
+              obscureText: !confirmarPasswordReveal,
               onChanged: (confirmPassword) {
                 registerBloc.add(
                   RegisterConfirmarPasswordChanged(
@@ -268,7 +277,7 @@ class RegisterContent extends StatelessWidget {
             ),
           ),
           TextButton(
-            onPressed: () => Navigator.pushNamed(context, '/login'),
+            onPressed: () => Navigator.of(context).pop(context),
             child: Text.rich(
               const TextSpan(
                 style: TextStyle(fontSize: 16, color: Colors.black),

@@ -36,3 +36,9 @@ class RegisterTelefonoChanged extends RegisterEvent {
   final String telefono;
   const RegisterTelefonoChanged({required this.telefono});
 }
+
+class FormReset extends RegisterEvent {}
+
+class TogglePasswordEvent extends RegisterEvent {}
+
+class ToggleConfirmarPasswordEvent extends RegisterEvent {}

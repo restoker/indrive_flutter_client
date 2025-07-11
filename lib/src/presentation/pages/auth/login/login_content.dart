@@ -10,6 +10,7 @@ class LoginContent extends StatelessWidget {
     final loginBloc = context.watch<LoginBloc>();
     final email = loginBloc.state.email;
     final password = loginBloc.state.password;
+    final passwordReveal = loginBloc.state.passwordReveal;
 
     return Column(
       children: [
@@ -61,14 +62,16 @@ class LoginContent extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 16.0),
           child: TextFormField(
             style: TextStyle(fontSize: 18),
-            obscureText: true,
+            obscureText: !passwordReveal,
             decoration: InputDecoration(
               errorText: password.errorMessage,
               label: Text('Contraseña', style: TextStyle(fontSize: 18)),
               prefixIcon: Icon(Icons.lock),
               suffixIcon: IconButton(
-                icon: Icon(Icons.visibility),
-                onPressed: () {},
+                icon: Icon(
+                  passwordReveal ? Icons.visibility_off : Icons.visibility,
+                ),
+                onPressed: () => loginBloc.add(TogglePasswordEvent()),
               ),
               hintText: 'Contraseña',
               hintStyle: TextStyle(fontSize: 18),
@@ -137,9 +140,8 @@ class LoginContent extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/register');
-          },
+          onPressed: () =>
+              Navigator.of(context, rootNavigator: true).pushNamed('register'),
           child: Text.rich(
             const TextSpan(
               style: TextStyle(fontSize: 16, color: Colors.black),

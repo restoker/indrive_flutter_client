@@ -18,7 +18,7 @@ class Nombre extends FormzInput<String, NombreError> {
   @override
   NombreError? validator(String value) {
     if (value.isEmpty || value.trim().isEmpty) return NombreError.empty;
-    if (value.length < 6) return NombreError.length;
+    if (value.length < 3) return NombreError.length;
     return null;
   }
 }
