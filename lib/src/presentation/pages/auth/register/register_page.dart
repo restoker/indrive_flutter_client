@@ -73,7 +73,55 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       SizedBox(height: constraints.maxHeight * 0.05),
                       BlocListener<RegisterBloc, RegisterState>(
-                        listener: (context, state) {},
+                        listener: (context, state) {
+                          if (state.formStatus == FormStatus.validating) {
+                            // add loader
+                            SimpleDialog(
+                              backgroundColor: Colors
+                                  .transparent, //here set the color to transparent
+                              elevation: 0,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CircularProgressIndicator(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      'Cargando...',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          }
+
+                          if (state.formStatus == FormStatus.posting) {
+                            // show loading
+                            SimpleDialog(
+                              backgroundColor: Colors
+                                  .transparent, //here set the color to transparent
+                              elevation: 0,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CircularProgressIndicator(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      'Cargando...',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          }
+                        },
                         child: BlocBuilder<RegisterBloc, RegisterState>(
                           builder: (context, state) {
                             return RegisterContent();

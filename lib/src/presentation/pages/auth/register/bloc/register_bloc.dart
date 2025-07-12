@@ -33,7 +33,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     on<ToggleConfirmarPasswordEvent>(_toggleConfirmarPassword);
 
-    on<FormReset>(_formReset);
+    on<FormReset>((event, emit) => _formReset(event, emit));
   }
 
   void _registerSubmit(RegisterSubmit event, Emitter<RegisterState> emit) {
@@ -63,7 +63,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     if (state.isValid) {
       inspect(state);
-      emit(state.copyWith(formStatus: FormStatus.posting));
+      _formReset(null, null);
     } else {
       emit(state.copyWith(formStatus: FormStatus.invalid));
     }
@@ -127,15 +127,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     RegisterPasswordChanged event,
     Emitter<RegisterState> emit,
   ) {
-    inspect(state.confirmarPassword.value);
     final password = PasswordRegister.dirty(
       value: event.password,
       confirmPassword: state.confirmarPassword.value,
     );
-    final confirmarPassword = ConfirmarPassword.dirty(
-      value: state.confirmarPassword.value,
-      password: event.password,
-    );
+
     emit(
       state.copyWith(
         password: password,
@@ -148,18 +144,24 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         ]),
       ),
     );
-    emit(
-      state.copyWith(
-        confirmarPassword: state.confirmarPassword,
-        isValid: Formz.validate([
-          state.email,
-          password,
-          confirmarPassword,
-          state.nombre,
-          state.telefono,
-        ]),
-      ),
-    );
+
+    // if (!state.confirmarPassword.isPure) {
+    //   emit(
+    //     state.copyWith(
+    //       confirmarPassword: ConfirmarPassword.dirty(
+    //         password: event.password,
+    //         value: state.confirmarPassword.value,
+    //       ),
+    //       isValid: Formz.validate([
+    //         state.email,
+    //         password,
+    //         state.confirmarPassword,
+    //         state.nombre,
+    //         state.telefono,
+    //       ]),
+    //     ),
+    //   );
+    // }
   }
 
   void _confirmarPasswordChanged(
@@ -170,10 +172,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       value: event.confirmarPassword,
       password: state.password.value,
     );
-    final password = PasswordRegister.dirty(
-      value: state.password.value,
-      confirmPassword: event.confirmarPassword,
-    );
+
     emit(
       state.copyWith(
         confirmarPassword: confirmarPassword,
@@ -186,18 +185,23 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         ]),
       ),
     );
-    emit(
-      state.copyWith(
-        password: state.password,
-        isValid: Formz.validate([
-          state.email,
-          password,
-          confirmarPassword,
-          state.nombre,
-          state.telefono,
-        ]),
-      ),
-    );
+    if (!state.password.isPure) {
+      emit(
+        state.copyWith(
+          password: PasswordRegister.dirty(
+            value: state.password.value,
+            confirmPassword: event.confirmarPassword,
+          ),
+          isValid: Formz.validate([
+            state.email,
+            state.password,
+            confirmarPassword,
+            state.nombre,
+            state.telefono,
+          ]),
+        ),
+      );
+    }
   }
 
   void _togglePassword(TogglePasswordEvent event, Emitter<RegisterState> emit) {
@@ -213,7 +217,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
   }
 
-  void _formReset(FormReset event, Emitter<RegisterState> emit) {
+  void _formReset(FormReset? event, Emitter<RegisterState>? emit) {
     state.formKey?.currentState?.reset();
+    // emit(state.copyWith(formStatus: FormStatus.initial));
   }
 }

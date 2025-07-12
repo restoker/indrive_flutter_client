@@ -14,7 +14,7 @@ class ConfirmarPassword extends FormzInput<String, ConfirmarPasswordError> {
       return 'El campo es requerido';
     }
     if (displayError == ConfirmarPasswordError.length) {
-      return 'El campo debe tener al menos 6 caracteres';
+      return 'El campo debe tener al menos 5 caracteres';
     }
     if (displayError == ConfirmarPasswordError.match) {
       return 'Las contraseñas no coinciden';
@@ -30,7 +30,7 @@ class ConfirmarPassword extends FormzInput<String, ConfirmarPasswordError> {
     if (value != password) {
       return ConfirmarPasswordError.match;
     }
-    if (value.length < 6) {
+    if (value.length < 5) {
       return ConfirmarPasswordError.length;
     }
     return null;

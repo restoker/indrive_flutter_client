@@ -10,7 +10,7 @@ class Nombre extends FormzInput<String, NombreError> {
     if (isValid || isPure) return null;
     if (displayError == NombreError.empty) return 'El campo es requerido';
     if (displayError == NombreError.length) {
-      return 'El campo debe tener al menos 6 caracteres';
+      return 'El campo debe tener al menos 3 caracteres';
     }
     return null;
   }
