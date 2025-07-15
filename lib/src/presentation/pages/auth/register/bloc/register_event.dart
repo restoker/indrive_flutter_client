@@ -13,27 +13,27 @@ class RegisterSubmit extends RegisterEvent {
 }
 
 class RegisterEmailChanged extends RegisterEvent {
-  final String email;
+  final BlocFormItem email;
   const RegisterEmailChanged({required this.email});
 }
 
 class RegisterPasswordChanged extends RegisterEvent {
-  final String password;
+  final BlocFormItem password;
   const RegisterPasswordChanged({required this.password});
 }
 
 class RegisterConfirmarPasswordChanged extends RegisterEvent {
-  final String confirmarPassword;
+  final BlocFormItem confirmarPassword;
   const RegisterConfirmarPasswordChanged({required this.confirmarPassword});
 }
 
 class RegisterNombreChanged extends RegisterEvent {
-  final String nombre;
+  final BlocFormItem nombre;
   const RegisterNombreChanged({required this.nombre});
 }
 
 class RegisterTelefonoChanged extends RegisterEvent {
-  final String telefono;
+  final BlocFormItem telefono;
   const RegisterTelefonoChanged({required this.telefono});
 }
 

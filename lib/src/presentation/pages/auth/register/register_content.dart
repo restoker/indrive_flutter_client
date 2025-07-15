@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/register/bloc/register_bloc.dart';
+import 'package:indrive_flutter_client/src/presentation/utils/bloc_form_item.dart';
 
 class RegisterContent extends StatelessWidget {
   const RegisterContent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final registerBloc = context.watch<RegisterBloc>();
+    final registerBloc = context.read<RegisterBloc>();
     final formKey = registerBloc.state.formKey;
     final nombre = registerBloc.state.nombre;
     final telefono = registerBloc.state.telefono;
@@ -24,7 +26,7 @@ class RegisterContent extends StatelessWidget {
           TextFormField(
             style: TextStyle(fontSize: 18),
             decoration: InputDecoration(
-              errorText: nombre.errorMessage,
+              errorText: nombre.error,
               prefixIcon: Icon(Icons.person),
               label: Text('Nombre completo', style: TextStyle(fontSize: 18)),
               filled: true,
@@ -59,14 +61,19 @@ class RegisterContent extends StatelessWidget {
               ),
             ),
             onChanged: (nombre) {
-              registerBloc.add(RegisterNombreChanged(nombre: nombre));
+              registerBloc.add(
+                RegisterNombreChanged(nombre: BlocFormItem(value: nombre)),
+              );
+            },
+            validator: (value) {
+              return registerBloc.state.nombre.error;
             },
           ),
           const SizedBox(height: 16.0),
           TextFormField(
             style: TextStyle(fontSize: 18),
             decoration: InputDecoration(
-              errorText: telefono.errorMessage,
+              errorText: telefono.error,
               prefixIcon: Icon(Icons.phone),
               label: Text('Teléfono', style: TextStyle(fontSize: 18)),
               filled: true,
@@ -102,14 +109,21 @@ class RegisterContent extends StatelessWidget {
             ),
             keyboardType: TextInputType.phone,
             onChanged: (telefono) {
-              registerBloc.add(RegisterTelefonoChanged(telefono: telefono));
+              registerBloc.add(
+                RegisterTelefonoChanged(
+                  telefono: BlocFormItem(value: telefono),
+                ),
+              );
+            },
+            validator: (value) {
+              return registerBloc.state.telefono.error;
             },
           ),
           const SizedBox(height: 16.0),
           TextFormField(
             style: TextStyle(fontSize: 18),
             decoration: InputDecoration(
-              errorText: email.errorMessage,
+              errorText: email.error,
               prefixIcon: Icon(Icons.email),
               label: Text('Email', style: TextStyle(fontSize: 18)),
               filled: true,
@@ -145,7 +159,12 @@ class RegisterContent extends StatelessWidget {
             ),
             keyboardType: TextInputType.emailAddress,
             onChanged: (email) {
-              registerBloc.add(RegisterEmailChanged(email: email));
+              registerBloc.add(
+                RegisterEmailChanged(email: BlocFormItem(value: email)),
+              );
+            },
+            validator: (value) {
+              return registerBloc.state.email.error;
             },
           ),
           Padding(
@@ -153,7 +172,7 @@ class RegisterContent extends StatelessWidget {
             child: TextFormField(
               style: TextStyle(fontSize: 18),
               decoration: InputDecoration(
-                errorText: password.errorMessage,
+                errorText: password.error,
                 label: Text('Contraseña', style: TextStyle(fontSize: 18)),
                 prefixIcon: Icon(Icons.lock_clock_outlined),
                 suffixIcon: IconButton(
@@ -195,7 +214,14 @@ class RegisterContent extends StatelessWidget {
               ),
               obscureText: !passwordReveal,
               onChanged: (password) {
-                registerBloc.add(RegisterPasswordChanged(password: password));
+                registerBloc.add(
+                  RegisterPasswordChanged(
+                    password: BlocFormItem(value: password),
+                  ),
+                );
+              },
+              validator: (value) {
+                return registerBloc.state.password.error;
               },
             ),
           ),
@@ -204,7 +230,7 @@ class RegisterContent extends StatelessWidget {
             child: TextFormField(
               style: TextStyle(fontSize: 18),
               decoration: InputDecoration(
-                errorText: confirmarPassword.errorMessage,
+                errorText: confirmarPassword.error,
                 label: Text(
                   'Confirmar contraseña',
                   style: TextStyle(fontSize: 18),
@@ -254,9 +280,12 @@ class RegisterContent extends StatelessWidget {
               onChanged: (confirmPassword) {
                 registerBloc.add(
                   RegisterConfirmarPasswordChanged(
-                    confirmarPassword: confirmPassword,
+                    confirmarPassword: BlocFormItem(value: confirmPassword),
                   ),
                 );
+              },
+              validator: (value) {
+                return registerBloc.state.confirmarPassword.error;
               },
             ),
           ),
@@ -264,7 +293,18 @@ class RegisterContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
               onPressed: () {
-                registerBloc.add(RegisterSubmit());
+                // Validar que el formulario sea valido
+                if (registerBloc.state.formKey!.currentState!.validate()) {
+                  registerBloc.add(RegisterSubmit());
+                  registerBloc.add(FormReset());
+                } else {
+                  Fluttertoast.showToast(
+                    msg: 'El formulario no es valido',
+                    toastLength: Toast.LENGTH_LONG,
+                    backgroundColor: Colors.redAccent,
+                    webShowClose: true,
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 elevation: 0,
@@ -277,7 +317,6 @@ class RegisterContent extends StatelessWidget {
             ),
           ),
           TextButton(
-            onPressed: () => Navigator.of(context).pop(context),
             child: Text.rich(
               const TextSpan(
                 style: TextStyle(fontSize: 16, color: Colors.black),
@@ -295,6 +334,7 @@ class RegisterContent extends StatelessWidget {
                 ).textTheme.bodyLarge!.color!.withValues(alpha: 0.64),
               ),
             ),
+            onPressed: () => Navigator.of(context).pop(context),
           ),
         ],
       ),

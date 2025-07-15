@@ -3,11 +3,11 @@ part of 'register_bloc.dart';
 enum FormStatus { invalid, valid, validating, posting }
 
 class RegisterState extends Equatable {
-  final Email email;
-  final PasswordRegister password;
-  final ConfirmarPassword confirmarPassword;
-  final Nombre nombre;
-  final Telefono telefono;
+  final BlocFormItem nombre;
+  final BlocFormItem email;
+  final BlocFormItem password;
+  final BlocFormItem confirmarPassword;
+  final BlocFormItem telefono;
   final bool isValid;
   final FormStatus formStatus;
   final GlobalKey<FormState>? formKey;
@@ -15,11 +15,11 @@ class RegisterState extends Equatable {
   final bool confirmarPasswordReveal;
 
   const RegisterState({
-    this.email = const Email.pure(),
-    this.password = const PasswordRegister.pure(confirmPassword: ''),
-    this.confirmarPassword = const ConfirmarPassword.pure(password: ''),
-    this.nombre = const Nombre.pure(),
-    this.telefono = const Telefono.pure(),
+    this.email = const BlocFormItem(error: 'El campo es requerido'),
+    this.password = const BlocFormItem(error: 'El campo es requerido'),
+    this.confirmarPassword = const BlocFormItem(error: 'El campo es requerido'),
+    this.nombre = const BlocFormItem(error: 'El campo es requerido'),
+    this.telefono = const BlocFormItem(error: 'El campo es requerido'),
     this.isValid = false,
     this.formStatus = FormStatus.invalid,
     this.formKey,
@@ -28,11 +28,11 @@ class RegisterState extends Equatable {
   });
 
   RegisterState copyWith({
-    Email? email,
-    PasswordRegister? password,
-    ConfirmarPassword? confirmarPassword,
-    Nombre? nombre,
-    Telefono? telefono,
+    BlocFormItem? email,
+    BlocFormItem? password,
+    BlocFormItem? confirmarPassword,
+    BlocFormItem? nombre,
+    BlocFormItem? telefono,
     bool? isValid,
     FormStatus? formStatus,
     GlobalKey<FormState>? formKey,

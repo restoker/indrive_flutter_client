@@ -3,8 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:formz/formz.dart';
-import 'package:indrive_flutter_client/src/infra/inputs/inputs.dart';
+import 'package:indrive_flutter_client/src/presentation/utils/bloc_form_item.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
@@ -37,30 +36,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   void _registerSubmit(RegisterSubmit event, Emitter<RegisterState> emit) {
-    emit(
-      state.copyWith(
-        email: Email.dirty(state.email.value),
-        nombre: Nombre.dirty(state.nombre.value),
-        telefono: Telefono.dirty(state.telefono.value),
-        password: PasswordRegister.dirty(
-          value: state.password.value,
-          confirmPassword: state.confirmarPassword.value,
-        ),
-        confirmarPassword: ConfirmarPassword.dirty(
-          value: state.confirmarPassword.value,
-          password: state.password.value,
-        ),
-        isValid: Formz.validate([
-          state.email,
-          state.password,
-          state.confirmarPassword,
-          state.nombre,
-          state.telefono,
-        ]),
-        formStatus: FormStatus.validating,
-      ),
-    );
-
     if (state.isValid) {
       inspect(state);
       _formReset(null, null);
@@ -70,17 +45,19 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   void _emailChanged(RegisterEmailChanged event, Emitter<RegisterState> emit) {
-    final email = Email.dirty(event.email);
     emit(
       state.copyWith(
-        email: email,
-        isValid: Formz.validate([
-          email,
-          state.password,
-          state.confirmarPassword,
-          state.nombre,
-          state.telefono,
-        ]),
+        formKey: state.formKey,
+        email: BlocFormItem(
+          value: event.email.value,
+          error: event.email.value.isEmpty
+              ? 'El email es obligatorio'
+              : (!RegExp(
+                  r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$',
+                ).hasMatch(event.email.value))
+              ? 'Ingrese un email valido'
+              : null,
+        ),
       ),
     );
   }
@@ -89,17 +66,19 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     RegisterNombreChanged event,
     Emitter<RegisterState> emit,
   ) {
-    final nombre = Nombre.dirty(event.nombre);
     emit(
       state.copyWith(
-        nombre: nombre,
-        isValid: Formz.validate([
-          state.email,
-          state.password,
-          nombre,
-          state.telefono,
-          state.confirmarPassword,
-        ]),
+        nombre: BlocFormItem(
+          value: event.nombre.value,
+          error: event.nombre.value.isEmpty
+              ? 'El nombre es obligatorio'
+              : event.nombre.value.length < 2
+              ? 'Ingrese un nombre mas descriptivo'
+              : event.nombre.value.length > 150
+              ? 'Sobrepaso el máximo de caracteres'
+              : null,
+        ),
+        formKey: state.formKey,
       ),
     );
   }
@@ -108,17 +87,23 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     RegisterTelefonoChanged event,
     Emitter<RegisterState> emit,
   ) {
-    final telefono = Telefono.dirty(event.telefono);
+    String? dato = event.telefono.value;
+    final RegExp telefonoRegExp = RegExp(r'^(9|7)\d{8}$');
     emit(
       state.copyWith(
-        telefono: telefono,
-        isValid: Formz.validate([
-          state.email,
-          state.password,
-          telefono,
-          state.confirmarPassword,
-          state.nombre,
-        ]),
+        telefono: BlocFormItem(
+          value: dato,
+          error: dato.isEmpty
+              ? 'El teléfono es obligatorio'
+              : dato.length != 9
+              ? 'Ingrese un número válido'
+              : int.parse(dato).isNaN
+              ? 'El teléfono solo debe incluir números'
+              : !telefonoRegExp.hasMatch(dato)
+              ? 'Número de teléfono inválido en Perú'
+              : null,
+        ),
+        formKey: state.formKey,
       ),
     );
   }
@@ -127,81 +112,69 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     RegisterPasswordChanged event,
     Emitter<RegisterState> emit,
   ) {
-    final password = PasswordRegister.dirty(
-      value: event.password,
-      confirmPassword: state.confirmarPassword.value,
+    emit(
+      state.copyWith(
+        password: BlocFormItem(
+          value: event.password.value,
+          error: event.password.value.isEmpty
+              ? 'El password es obligatorio'
+              : event.password.value.length < 5
+              ? 'El password debe tener al menos 5 caracteres'
+              : null,
+        ),
+        formKey: state.formKey,
+      ),
     );
 
     emit(
       state.copyWith(
-        password: password,
-        isValid: Formz.validate([
-          state.email,
-          password,
-          state.confirmarPassword,
-          state.nombre,
-          state.telefono,
-        ]),
+        confirmarPassword: BlocFormItem(
+          value: state.confirmarPassword.value,
+          error: state.confirmarPassword.value.isEmpty
+              ? 'Confirmar es obligatoio'
+              : state.confirmarPassword.value != state.password.value
+              ? 'Confirmar debe ser igual a password'
+              : state.confirmarPassword.value.length < 5
+              ? 'El Confirmar debe tener al menos 5 caracteres'
+              : null,
+        ),
       ),
     );
-
-    // if (!state.confirmarPassword.isPure) {
-    //   emit(
-    //     state.copyWith(
-    //       confirmarPassword: ConfirmarPassword.dirty(
-    //         password: event.password,
-    //         value: state.confirmarPassword.value,
-    //       ),
-    //       isValid: Formz.validate([
-    //         state.email,
-    //         password,
-    //         state.confirmarPassword,
-    //         state.nombre,
-    //         state.telefono,
-    //       ]),
-    //     ),
-    //   );
-    // }
   }
 
   void _confirmarPasswordChanged(
     RegisterConfirmarPasswordChanged event,
     Emitter<RegisterState> emit,
   ) {
-    final confirmarPassword = ConfirmarPassword.dirty(
-      value: event.confirmarPassword,
-      password: state.password.value,
+    emit(
+      state.copyWith(
+        confirmarPassword: BlocFormItem(
+          value: event.confirmarPassword.value,
+          error: event.confirmarPassword.value.isEmpty
+              ? 'Confirmar es obligatoio'
+              : event.confirmarPassword.value != state.password.value
+              ? 'El Confirmar debe ser igual a password'
+              : event.confirmarPassword.value.length < 5
+              ? 'El Confirmar debe tener al menos 5 caracteres'
+              : null,
+        ),
+        formKey: state.formKey,
+      ),
     );
 
     emit(
       state.copyWith(
-        confirmarPassword: confirmarPassword,
-        isValid: Formz.validate([
-          state.email,
-          state.password,
-          confirmarPassword,
-          state.nombre,
-          state.telefono,
-        ]),
+        password: BlocFormItem(
+          value: state.password.value,
+          error: state.password.value.isEmpty
+              ? 'El password es obligatorio'
+              : state.password.value.length < 5
+              ? 'El password debe tener al menos 5 caracteres'
+              : null,
+        ),
+        formKey: state.formKey,
       ),
     );
-    if (!state.password.isPure) {
-      emit(
-        state.copyWith(
-          password: PasswordRegister.dirty(
-            value: state.password.value,
-            confirmPassword: event.confirmarPassword,
-          ),
-          isValid: Formz.validate([
-            state.email,
-            state.password,
-            confirmarPassword,
-            state.nombre,
-            state.telefono,
-          ]),
-        ),
-      );
-    }
   }
 
   void _togglePassword(TogglePasswordEvent event, Emitter<RegisterState> emit) {

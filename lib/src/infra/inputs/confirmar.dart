@@ -4,7 +4,7 @@ enum ConfirmarPasswordError { empty, length, match }
 
 class ConfirmarPassword extends FormzInput<String, ConfirmarPasswordError> {
   final String password;
-  const ConfirmarPassword.pure({required this.password}) : super.pure('');
+  const ConfirmarPassword.pure({this.password = ""}) : super.pure('');
   const ConfirmarPassword.dirty({required this.password, required String value})
     : super.dirty(value);
 

@@ -4,7 +4,7 @@ enum PasswordRegisterError { empty, length, match }
 
 class PasswordRegister extends FormzInput<String, PasswordRegisterError> {
   final String confirmPassword;
-  const PasswordRegister.pure({required this.confirmPassword}) : super.pure('');
+  const PasswordRegister.pure({this.confirmPassword = ""}) : super.pure('');
   const PasswordRegister.dirty({
     required String value,
     required this.confirmPassword,
