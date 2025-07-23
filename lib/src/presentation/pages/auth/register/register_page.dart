@@ -124,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                         child: BlocBuilder<RegisterBloc, RegisterState>(
                           builder: (context, state) {
-                            return RegisterContent();
+                            return RegisterContent(state: state);
                           },
                         ),
                       ),

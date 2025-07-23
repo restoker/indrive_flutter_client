@@ -36,28 +36,32 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   void _registerSubmit(RegisterSubmit event, Emitter<RegisterState> emit) {
-    if (state.isValid) {
-      inspect(state);
-      _formReset(null, null);
-    } else {
-      emit(state.copyWith(formStatus: FormStatus.invalid));
-    }
+    emit(state.copyWith(formStatus: FormStatus.validating));
+    emit(state.copyWith(formStatus: FormStatus.valid));
+    // inspect(state.telefono.value);
+    // inspect(state.email.value);
+    // inspect(state.password.value);
+    // inspect(state.confirmarPassword.value);
+    // if (state.isValid) {
+    //   _formReset(null, null);
+    // } else {
+    //   emit(state.copyWith(formStatus: FormStatus.invalid));
+    // }
   }
 
   void _emailChanged(RegisterEmailChanged event, Emitter<RegisterState> emit) {
+    final RegExp emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     emit(
       state.copyWith(
-        formKey: state.formKey,
         email: BlocFormItem(
           value: event.email.value,
-          error: event.email.value.isEmpty
+          error: event.email.value.isEmpty || event.email.value.trim().isEmpty
               ? 'El email es obligatorio'
-              : (!RegExp(
-                  r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$',
-                ).hasMatch(event.email.value))
+              : (!emailRegExp.hasMatch(event.email.value))
               ? 'Ingrese un email valido'
               : null,
         ),
+        formKey: state.formKey,
       ),
     );
   }
@@ -70,7 +74,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       state.copyWith(
         nombre: BlocFormItem(
           value: event.nombre.value,
-          error: event.nombre.value.isEmpty
+          error: event.nombre.value.isEmpty || event.nombre.value.trim().isEmpty
               ? 'El nombre es obligatorio'
               : event.nombre.value.length < 2
               ? 'Ingrese un nombre mas descriptivo'
@@ -93,7 +97,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       state.copyWith(
         telefono: BlocFormItem(
           value: dato,
-          error: dato.isEmpty
+          error: dato.isEmpty || dato.trim().isEmpty
               ? 'El teléfono es obligatorio'
               : dato.length != 9
               ? 'Ingrese un número válido'
@@ -116,7 +120,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       state.copyWith(
         password: BlocFormItem(
           value: event.password.value,
-          error: event.password.value.isEmpty
+          error:
+              event.password.value.isEmpty ||
+                  event.password.value.trim().isEmpty
               ? 'El password es obligatorio'
               : event.password.value.length < 5
               ? 'El password debe tener al menos 5 caracteres'
@@ -130,7 +136,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       state.copyWith(
         confirmarPassword: BlocFormItem(
           value: state.confirmarPassword.value,
-          error: state.confirmarPassword.value.isEmpty
+          error:
+              state.confirmarPassword.value.isEmpty ||
+                  state.confirmarPassword.value.trim().isEmpty
               ? 'Confirmar es obligatoio'
               : state.confirmarPassword.value != state.password.value
               ? 'Confirmar debe ser igual a password'
@@ -138,6 +146,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
               ? 'El Confirmar debe tener al menos 5 caracteres'
               : null,
         ),
+        formKey: state.formKey,
       ),
     );
   }
@@ -150,7 +159,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       state.copyWith(
         confirmarPassword: BlocFormItem(
           value: event.confirmarPassword.value,
-          error: event.confirmarPassword.value.isEmpty
+          error:
+              event.confirmarPassword.value.isEmpty ||
+                  event.confirmarPassword.value.trim().isEmpty
               ? 'Confirmar es obligatoio'
               : event.confirmarPassword.value != state.password.value
               ? 'El Confirmar debe ser igual a password'
@@ -166,7 +177,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       state.copyWith(
         password: BlocFormItem(
           value: state.password.value,
-          error: state.password.value.isEmpty
+          error:
+              state.password.value.isEmpty ||
+                  state.password.value.trim().isEmpty
               ? 'El password es obligatorio'
               : state.password.value.length < 5
               ? 'El password debe tener al menos 5 caracteres'
@@ -191,7 +204,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   void _formReset(FormReset? event, Emitter<RegisterState>? emit) {
+    emit!(state.copyWith(formStatus: FormStatus.invalid));
     state.formKey?.currentState?.reset();
-    // emit(state.copyWith(formStatus: FormStatus.initial));
   }
 }

@@ -8,9 +8,7 @@ class RegisterInitEvent extends RegisterEvent {
   const RegisterInitEvent();
 }
 
-class RegisterSubmit extends RegisterEvent {
-  const RegisterSubmit();
-}
+class RegisterSubmit extends RegisterEvent {}
 
 class RegisterEmailChanged extends RegisterEvent {
   final BlocFormItem email;

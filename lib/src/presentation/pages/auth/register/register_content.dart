@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -5,12 +7,14 @@ import 'package:indrive_flutter_client/src/presentation/pages/auth/register/bloc
 import 'package:indrive_flutter_client/src/presentation/utils/bloc_form_item.dart';
 
 class RegisterContent extends StatelessWidget {
-  const RegisterContent({super.key});
+  const RegisterContent({super.key, required this.state});
+
+  final RegisterState state;
 
   @override
   Widget build(BuildContext context) {
-    final registerBloc = context.read<RegisterBloc>();
-    final formKey = registerBloc.state.formKey;
+    final registerBloc = context.watch<RegisterBloc>();
+    // final formKey = registerBloc.state.formKey;
     final nombre = registerBloc.state.nombre;
     final telefono = registerBloc.state.telefono;
     final email = registerBloc.state.email;
@@ -20,7 +24,7 @@ class RegisterContent extends StatelessWidget {
     final confirmarPasswordReveal = registerBloc.state.confirmarPasswordReveal;
 
     return Form(
-      key: formKey,
+      key: state.formKey,
       child: Column(
         children: [
           TextFormField(
@@ -66,7 +70,7 @@ class RegisterContent extends StatelessWidget {
               );
             },
             validator: (value) {
-              return registerBloc.state.nombre.error;
+              return state.nombre.error;
             },
           ),
           const SizedBox(height: 16.0),
@@ -116,7 +120,7 @@ class RegisterContent extends StatelessWidget {
               );
             },
             validator: (value) {
-              return registerBloc.state.telefono.error;
+              return state.telefono.error;
             },
           ),
           const SizedBox(height: 16.0),
@@ -164,7 +168,7 @@ class RegisterContent extends StatelessWidget {
               );
             },
             validator: (value) {
-              return registerBloc.state.email.error;
+              return state.email.error;
             },
           ),
           Padding(
@@ -221,7 +225,7 @@ class RegisterContent extends StatelessWidget {
                 );
               },
               validator: (value) {
-                return registerBloc.state.password.error;
+                return state.password.error;
               },
             ),
           ),
@@ -285,7 +289,7 @@ class RegisterContent extends StatelessWidget {
                 );
               },
               validator: (value) {
-                return registerBloc.state.confirmarPassword.error;
+                return state.confirmarPassword.error;
               },
             ),
           ),
@@ -294,9 +298,10 @@ class RegisterContent extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 // Validar que el formulario sea valido
-                if (registerBloc.state.formKey!.currentState!.validate()) {
+                final isValid = state.formKey!.currentState!.validate();
+                if (isValid) {
                   registerBloc.add(RegisterSubmit());
-                  registerBloc.add(FormReset());
+                  // registerBloc.add(FormReset());
                 } else {
                   Fluttertoast.showToast(
                     msg: 'El formulario no es valido',

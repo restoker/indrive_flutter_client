@@ -15,11 +15,13 @@ class RegisterState extends Equatable {
   final bool confirmarPasswordReveal;
 
   const RegisterState({
-    this.email = const BlocFormItem(error: 'El campo es requerido'),
-    this.password = const BlocFormItem(error: 'El campo es requerido'),
-    this.confirmarPassword = const BlocFormItem(error: 'El campo es requerido'),
-    this.nombre = const BlocFormItem(error: 'El campo es requerido'),
-    this.telefono = const BlocFormItem(error: 'El campo es requerido'),
+    this.email = const BlocFormItem(error: 'Ingresa el email'),
+    this.password = const BlocFormItem(error: 'Ingresa el password'),
+    this.confirmarPassword = const BlocFormItem(
+      error: 'Confirma la contraseña',
+    ),
+    this.nombre = const BlocFormItem(error: 'Ingresa el nombre'),
+    this.telefono = const BlocFormItem(error: 'Ingresa el telefono'),
     this.isValid = false,
     this.formStatus = FormStatus.invalid,
     this.formKey,
@@ -56,11 +58,11 @@ class RegisterState extends Equatable {
 
   @override
   List<Object> get props => [
+    nombre,
     email,
+    telefono,
     password,
     confirmarPassword,
-    nombre,
-    telefono,
     isValid,
     formStatus,
     passwordReveal,
