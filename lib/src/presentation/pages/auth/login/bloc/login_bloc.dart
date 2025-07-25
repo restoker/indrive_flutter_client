@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -58,7 +56,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     if (state.isValid) {
       // hacer peticion
-      inspect(state);
+      // inspect(state);
     } else {
       // mostrar mensaje de error
       emit(state.copyWith(formStatus: FormStatus.invalid));

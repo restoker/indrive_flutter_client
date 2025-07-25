@@ -1,0 +1,68 @@
+import 'package:indrive_flutter_client/src/domain/models/role.dart';
+
+class User {
+  String? id;
+  // DateTime? createdAt;
+  // DateTime? updatedAt;
+  String nombre;
+  String email;
+  String telefono;
+  String? image;
+  String? password;
+  bool? verificated;
+  bool? isActive;
+  String? notificationToken;
+  List<Role?>? roles;
+
+  User({
+    this.id,
+    // this.createdAt,
+    // this.updatedAt,
+    required this.nombre,
+    required this.email,
+    required this.telefono,
+    this.image,
+    this.password,
+    this.verificated,
+    this.isActive,
+    this.notificationToken,
+    this.roles,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    // inspect(json['verificated']);
+    return User(
+      id: json["id"],
+      // createdAt: DateTime.parse(json["createdAt"]),
+      // updatedAt: DateTime.parse(json["updatedAt"]),
+      nombre: json["nombre"],
+      email: json["email"],
+      telefono: json["telefono"],
+      image: json["image"],
+      password: json["password"],
+      verificated: json["verificated"],
+      isActive: json["isActive"],
+      notificationToken: json["notification_token"],
+      roles: json["roles"] != null
+          ? List<Role>.from(json["roles"].map((x) => Role.fromJson(x)))
+          : [],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    // "createdAt": createdAt?.toIso8601String(),
+    // "updatedAt": updatedAt?.toIso8601String(),
+    "nombre": nombre,
+    "email": email,
+    "telefono": telefono,
+    "image": image,
+    "password": password,
+    "verificated": verificated,
+    "isActive": isActive,
+    "notification_token": notificationToken,
+    "roles": roles != null
+        ? List<dynamic>.from(roles!.map((x) => x?.toJson()))
+        : [],
+  };
+}

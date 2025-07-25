@@ -40,6 +40,7 @@ dependencies:
   formz: ^0.8.0
   flutter_bloc: ^9.1.1
   fluttertoast: ^8.2.12
+  http: ^1.4.0
 
 dev_dependencies:
   flutter_test:
