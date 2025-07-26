@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:indrive_flutter_client/src/data/DataSource/remote/services/auth_services.dart';
+import 'package:indrive_flutter_client/src/domain/models/user_response.dart';
 import 'package:indrive_flutter_client/src/infra/inputs/inputs.dart';
 
 part 'login_event.dart';
@@ -10,6 +14,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginState()) {
     final formKey = GlobalKey<FormState>();
+    final authService = AuthService();
 
     on<LoginInitEvent>((event, emit) {
       emit(state.copyWith(formKey: formKey));
@@ -19,7 +24,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     on<PasswordChanged>(_passwordChanged);
 
-    on<LoginSubmitEvent>(_loginSubmit);
+    on<LoginSubmitEvent>(
+      (event, emit) => _loginSubmit(event, emit, authService),
+    );
 
     on<TogglePasswordEvent>(_togglePassword);
   }
@@ -44,7 +51,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
   }
 
-  void _loginSubmit(LoginSubmitEvent event, Emitter<LoginState> emit) {
+  void _loginSubmit(
+    LoginSubmitEvent event,
+    Emitter<LoginState> emit,
+    AuthService authService,
+  ) async {
     emit(
       state.copyWith(
         email: Email.dirty(state.email.value),
@@ -55,7 +66,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
 
     if (state.isValid) {
-      // hacer peticion
+      UserResponse responseApi = await authService.login(
+        state.email.value,
+        state.password.value,
+      );
+      // inspect(responseApi);
+      if (!responseApi.ok) {}
+      // .then((value) {
+      //   emit(state.copyWith(formStatus: FormStatus.valid));
+      // })
+      // .catchError((error) {
+      //   emit(state.copyWith(formStatus: FormStatus.invalid));
+      // });
       // inspect(state);
     } else {
       // mostrar mensaje de error

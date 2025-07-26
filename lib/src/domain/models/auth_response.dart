@@ -11,7 +11,7 @@ class AuthResponse extends ResponseApi {
   String? token;
   User? user;
 
-  AuthResponse({super.ok, super.msg, this.token, this.user});
+  AuthResponse({required super.ok, required super.msg, this.token, this.user});
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) {
     return AuthResponse(
@@ -23,8 +23,8 @@ class AuthResponse extends ResponseApi {
   }
 
   Map<String, dynamic> toJson() => {
-    "ok": ok ?? false,
-    "msg": msg ?? "",
+    "ok": ok,
+    "msg": msg,
     "token": token,
     "user": user?.toJson(),
   };
