@@ -9,7 +9,7 @@ class User {
   String telefono;
   String? image;
   String? password;
-  bool? verificated;
+  bool? verified;
   bool? isActive;
   String? notificationToken;
   List<Role?>? roles;
@@ -23,7 +23,7 @@ class User {
     required this.telefono,
     this.image,
     this.password,
-    this.verificated,
+    this.verified,
     this.isActive,
     this.notificationToken,
     this.roles,
@@ -40,7 +40,7 @@ class User {
       telefono: json["telefono"],
       image: json["image"],
       password: json["password"],
-      verificated: json["verificated"],
+      verified: json["verified"],
       isActive: json["isActive"],
       notificationToken: json["notification_token"],
       roles: json["roles"] != null
@@ -58,7 +58,7 @@ class User {
     "telefono": telefono,
     "image": image,
     "password": password,
-    "verificated": verificated,
+    "verified": verified,
     "isActive": isActive,
     "notification_token": notificationToken,
     "roles": roles != null
