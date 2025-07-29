@@ -4,14 +4,25 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:indrive_flutter_client/src/data/api/api_config.dart';
 import 'package:indrive_flutter_client/src/domain/models/user_response.dart';
-import 'package:indrive_flutter_client/src/domain/models/index.dart';
 
 class AuthService {
-  Future<UserResponse> login(String email, String password) async {
+  Future<UserResponse> login(
+    String email,
+    String password, {
+    String? code,
+  }) async {
     try {
       Uri url = Uri.http(ApiConfig.ipServer, '/users/login');
       Map<String, String> headers = {'Content-Type': 'application/json'};
       String body = json.encode({'email': email, 'password': password});
+
+      if (code != null && code.trim().isNotEmpty && code.trim().length == 4) {
+        body = json.encode({
+          'email': email,
+          'password': password,
+          'code': code,
+        });
+      }
 
       final response = await http.post(url, headers: headers, body: body);
 

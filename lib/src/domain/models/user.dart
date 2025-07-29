@@ -13,6 +13,7 @@ class User {
   bool? isActive;
   String? notificationToken;
   List<Role?>? roles;
+  bool? twoFactor;
 
   User({
     this.id,
@@ -27,6 +28,7 @@ class User {
     this.isActive,
     this.notificationToken,
     this.roles,
+    this.twoFactor,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -46,6 +48,7 @@ class User {
       roles: json["roles"] != null
           ? List<Role>.from(json["roles"].map((x) => Role.fromJson(x)))
           : [],
+      twoFactor: json['two_factor_enabled'],
     );
   }
 
@@ -64,5 +67,6 @@ class User {
     "roles": roles != null
         ? List<dynamic>.from(roles!.map((x) => x?.toJson()))
         : [],
+    "two_factor_code": twoFactor,
   };
 }
