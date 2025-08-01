@@ -1,6 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:indrive_flutter_client/src/infra/inputs/email.dart';
+import 'package:indrive_flutter_client/src/infra/inputs/password.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/login/bloc/login_bloc.dart';
+import 'package:flutter/services.dart';
 
 class LoginContent extends StatelessWidget {
   const LoginContent({super.key});
@@ -8,10 +13,27 @@ class LoginContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginBloc = context.watch<LoginBloc>();
+
+    // final twoFactor = loginBloc.state.twoFactor;
+    final twoFactor = true;
+
+    return twoFactor
+        ? LoginFormWithTwoFactor(context: context)
+        : LoginFormWithoutTwoFactor(context: context);
+  }
+}
+
+class LoginFormWithoutTwoFactor extends StatelessWidget {
+  const LoginFormWithoutTwoFactor({super.key, required this.context});
+
+  final BuildContext context;
+
+  @override
+  Widget build(BuildContext context) {
+    final loginBloc = context.watch<LoginBloc>();
     final email = loginBloc.state.email;
     final password = loginBloc.state.password;
     final passwordReveal = loginBloc.state.passwordReveal;
-
     return Column(
       children: [
         TextFormField(
@@ -160,6 +182,203 @@ class LoginContent extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class LoginFormWithTwoFactor extends StatelessWidget {
+  const LoginFormWithTwoFactor({super.key, required this.context});
+
+  final BuildContext context;
+
+  @override
+  Widget build(BuildContext context) {
+    // final loginBloc = context.watch<LoginBloc>();
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        const Text(
+          "OTP Verification",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 8),
+        const Text(
+          "Se envio un codigo a tu correo electronico \nEste codigo expira en 2 horas",
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Color.fromARGB(255, 17, 15, 15)),
+        ),
+        // const SizedBox(height: 16),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+        OtpForm(context: context),
+      ],
+    );
+  }
+}
+
+const authOutlineInputBorder = OutlineInputBorder(
+  borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
+  borderRadius: BorderRadius.all(Radius.circular(12)),
+);
+
+class OtpForm extends StatelessWidget {
+  const OtpForm({super.key, required this.context});
+
+  final BuildContext context;
+
+  @override
+  Widget build(BuildContext context) {
+    final loginBloc = context.watch<LoginBloc>();
+    return Form(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                height: 64,
+                width: 64,
+                child: TextFormField(
+                  onSaved: (pin) {},
+                  onChanged: (pin) {
+                    loginBloc.add(Ping1Changed(pin1: int.parse(pin)));
+                    if (pin.isNotEmpty) {
+                      FocusScope.of(context).nextFocus();
+                    }
+                  },
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(1),
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  style: Theme.of(context).textTheme.titleLarge,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    hintText: "0",
+                    hintStyle: const TextStyle(color: Color(0xFF757575)),
+                    border: authOutlineInputBorder,
+                    enabledBorder: authOutlineInputBorder,
+                    focusedBorder: authOutlineInputBorder.copyWith(
+                      borderSide: const BorderSide(color: Color(0xFF00BF6D)),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 64,
+                width: 64,
+                child: TextFormField(
+                  onSaved: (pin) {},
+                  onChanged: (pin) {
+                    loginBloc.add(Ping2Changed(pin2: int.parse(pin)));
+                    if (pin.isNotEmpty) {
+                      FocusScope.of(context).nextFocus();
+                    }
+                  },
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(1),
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  style: Theme.of(context).textTheme.titleLarge,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    hintText: "0",
+                    hintStyle: const TextStyle(color: Color(0xFF757575)),
+                    border: authOutlineInputBorder,
+                    enabledBorder: authOutlineInputBorder,
+                    focusedBorder: authOutlineInputBorder.copyWith(
+                      borderSide: const BorderSide(color: Color(0xFF00BF6D)),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 64,
+                width: 64,
+                child: TextFormField(
+                  onSaved: (pin) {},
+                  onChanged: (pin) {
+                    loginBloc.add(Ping3Changed(pin3: int.parse(pin)));
+                    if (pin.isNotEmpty) {
+                      FocusScope.of(context).nextFocus();
+                    }
+                  },
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(1),
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  style: Theme.of(context).textTheme.titleLarge,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    hintText: "0",
+                    hintStyle: const TextStyle(color: Color(0xFF757575)),
+                    border: authOutlineInputBorder,
+                    enabledBorder: authOutlineInputBorder,
+                    focusedBorder: authOutlineInputBorder.copyWith(
+                      borderSide: const BorderSide(color: Color(0xFF00BF6D)),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 64,
+                width: 64,
+                child: TextFormField(
+                  onSaved: (pin) {},
+                  onChanged: (pin) {
+                    loginBloc.add(Ping4Changed(pin4: int.parse(pin)));
+                    if (pin.isNotEmpty) {
+                      FocusScope.of(context).nextFocus();
+                    }
+                  },
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(1),
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  style: Theme.of(context).textTheme.titleLarge,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    hintText: "0",
+                    hintStyle: const TextStyle(color: Color(0xFF757575)),
+                    border: authOutlineInputBorder,
+                    enabledBorder: authOutlineInputBorder,
+                    focusedBorder: authOutlineInputBorder.copyWith(
+                      borderSide: const BorderSide(color: Color(0xFF00BF6D)),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: () {
+              // inspect(loginBloc.state);
+              loginBloc.add(LoginSubmitTwoFactorEvent());
+            },
+            style: ElevatedButton.styleFrom(
+              elevation: 0,
+              backgroundColor: const Color(0xFF00BF6D),
+              foregroundColor: Colors.white,
+              minimumSize: const Size(double.infinity, 48),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+              ),
+            ),
+            child: const Text("Ingresar", style: TextStyle(fontSize: 20)),
+          ),
+        ],
+      ),
     );
   }
 }

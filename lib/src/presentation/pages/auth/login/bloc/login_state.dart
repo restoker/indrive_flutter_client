@@ -10,8 +10,11 @@ class LoginState extends Equatable {
   final bool isValid;
   final FormStatus formStatus;
   final bool passwordReveal;
-  final String code;
   final bool twoFactor;
+  final Pin pin1;
+  final Pin pin2;
+  final Pin pin3;
+  final Pin pin4;
 
   const LoginState({
     this.email = const Email.pure(),
@@ -20,8 +23,11 @@ class LoginState extends Equatable {
     this.isValid = false,
     this.formStatus = FormStatus.invalid,
     this.passwordReveal = false,
-    this.code = '',
     this.twoFactor = false,
+    this.pin1 = const Pin.pure(),
+    this.pin2 = const Pin.pure(),
+    this.pin3 = const Pin.pure(),
+    this.pin4 = const Pin.pure(),
   });
 
   LoginState copyWith({
@@ -31,8 +37,11 @@ class LoginState extends Equatable {
     bool? isValid,
     FormStatus? formStatus,
     bool? passwordReveal,
-    String? code,
     bool? twoFactor,
+    Pin? pin1,
+    Pin? pin2,
+    Pin? pin3,
+    Pin? pin4,
   }) {
     return LoginState(
       email: email ?? this.email,
@@ -41,8 +50,11 @@ class LoginState extends Equatable {
       isValid: isValid ?? this.isValid,
       formStatus: formStatus ?? this.formStatus,
       passwordReveal: passwordReveal ?? this.passwordReveal,
-      code: code ?? this.code,
       twoFactor: twoFactor ?? this.twoFactor,
+      pin1: pin1 ?? this.pin1,
+      pin2: pin2 ?? this.pin2,
+      pin3: pin3 ?? this.pin3,
+      pin4: pin4 ?? this.pin4,
     );
   }
 
@@ -53,7 +65,10 @@ class LoginState extends Equatable {
     isValid,
     formStatus,
     passwordReveal,
-    code,
     twoFactor,
+    pin1,
+    pin2,
+    pin3,
+    pin4,
   ];
 }

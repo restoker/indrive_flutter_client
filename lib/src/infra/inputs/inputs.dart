@@ -4,3 +4,4 @@ export 'confirmar.dart';
 export 'nombre.dart';
 export 'telefono.dart';
 export 'password_register.dart';
+export 'pin.dart';
