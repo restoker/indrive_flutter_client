@@ -27,7 +27,7 @@ class Pin extends FormzInput<int, PinError> {
     if (!isInteger(value)) {
       return PinError.integer;
     }
-    if (value.toString().length == 1) return PinError.length;
+    if (value.toString().length != 1) return PinError.length;
     return null;
   }
 }

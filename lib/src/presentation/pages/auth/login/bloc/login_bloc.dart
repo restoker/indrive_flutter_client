@@ -65,7 +65,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _ping1Changed(Ping1Changed event, Emitter<LoginState> emit) {
-    final pin1 = Pin.dirty(event.pin1);
+    final pin1 = Pin.dirty(int.parse(event.pin1));
     emit(
       state.copyWith(
         pin1: pin1,
@@ -75,7 +75,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _ping2Changed(Ping2Changed event, Emitter<LoginState> emit) {
-    final pin2 = Pin.dirty(event.pin2);
+    final pin2 = Pin.dirty(int.parse(event.pin2));
     emit(
       state.copyWith(
         pin2: pin2,
@@ -85,7 +85,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _ping3Changed(Ping3Changed event, Emitter<LoginState> emit) {
-    final pin3 = Pin.dirty(event.pin3);
+    final pin3 = Pin.dirty(int.parse(event.pin3));
     emit(
       state.copyWith(
         pin3: pin3,
@@ -95,7 +95,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _ping4Changed(Ping4Changed event, Emitter<LoginState> emit) {
-    final pin4 = Pin.dirty(event.pin4);
+    final pin4 = Pin.dirty(int.parse(event.pin4));
     emit(
       state.copyWith(
         pin4: pin4,
