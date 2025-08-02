@@ -248,7 +248,7 @@ class OtpForm extends StatelessWidget {
                 child: TextFormField(
                   onSaved: (pin) {},
                   onChanged: (pin) {
-                    loginBloc.add(Ping1Changed(pin1: pin));
+                    loginBloc.add(Ping1Changed(pin1: int.parse(pin)));
                     if (pin.isNotEmpty) {
                       FocusScope.of(context).nextFocus();
                     }
@@ -262,7 +262,6 @@ class OtpForm extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    errorText: pin1.errorMessage,
                     hintText: "0",
                     hintStyle: const TextStyle(color: Color(0xFF757575)),
                     border: authOutlineInputBorder,
@@ -279,7 +278,7 @@ class OtpForm extends StatelessWidget {
                 child: TextFormField(
                   onSaved: (pin) {},
                   onChanged: (pin) {
-                    loginBloc.add(Ping2Changed(pin2: pin));
+                    loginBloc.add(Ping2Changed(pin2: int.parse(pin)));
                     if (pin.isNotEmpty) {
                       FocusScope.of(context).nextFocus();
                     }
@@ -293,7 +292,6 @@ class OtpForm extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    errorText: pin2.errorMessage,
                     hintText: "0",
                     hintStyle: const TextStyle(color: Color(0xFF757575)),
                     border: authOutlineInputBorder,
@@ -310,7 +308,7 @@ class OtpForm extends StatelessWidget {
                 child: TextFormField(
                   onSaved: (pin) {},
                   onChanged: (pin) {
-                    loginBloc.add(Ping3Changed(pin3: pin));
+                    loginBloc.add(Ping3Changed(pin3: int.parse(pin)));
                     if (pin.isNotEmpty) {
                       FocusScope.of(context).nextFocus();
                     }
@@ -324,7 +322,6 @@ class OtpForm extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    errorText: pin3.errorMessage,
                     hintText: "0",
                     hintStyle: const TextStyle(color: Color(0xFF757575)),
                     border: authOutlineInputBorder,
@@ -341,7 +338,7 @@ class OtpForm extends StatelessWidget {
                 child: TextFormField(
                   onSaved: (pin) {},
                   onChanged: (pin) {
-                    loginBloc.add(Ping4Changed(pin4: pin));
+                    loginBloc.add(Ping4Changed(pin4: int.parse(pin)));
                     if (pin.isNotEmpty) {
                       FocusScope.of(context).nextFocus();
                     }
@@ -355,7 +352,6 @@ class OtpForm extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    errorText: pin4.errorMessage,
                     hintText: "0",
                     hintStyle: const TextStyle(color: Color(0xFF757575)),
                     border: authOutlineInputBorder,

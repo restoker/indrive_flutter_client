@@ -1,7 +1,7 @@
 part of 'login_bloc.dart';
 
 // https://github.com/Klerith/flutter-formularios/blob/fin-seccion-19-formz/lib/presentation/blocs/counter_bloc/counter_state.dart
-enum FormStatus { invalid, valid, validating, posting }
+enum FormStatus { invalid, valid, validating, posting, error }
 
 class LoginState extends Equatable {
   final Email email;
@@ -11,10 +11,10 @@ class LoginState extends Equatable {
   final FormStatus formStatus;
   final bool passwordReveal;
   final bool twoFactor;
-  final Pin pin1;
-  final Pin pin2;
-  final Pin pin3;
-  final Pin pin4;
+  final int pin1;
+  final int pin2;
+  final int pin3;
+  final int pin4;
 
   const LoginState({
     this.email = const Email.pure(),
@@ -24,10 +24,10 @@ class LoginState extends Equatable {
     this.formStatus = FormStatus.invalid,
     this.passwordReveal = false,
     this.twoFactor = false,
-    this.pin1 = const Pin.pure(),
-    this.pin2 = const Pin.pure(),
-    this.pin3 = const Pin.pure(),
-    this.pin4 = const Pin.pure(),
+    this.pin1 = 10,
+    this.pin2 = 10,
+    this.pin3 = 10,
+    this.pin4 = 10,
   });
 
   LoginState copyWith({
@@ -38,10 +38,10 @@ class LoginState extends Equatable {
     FormStatus? formStatus,
     bool? passwordReveal,
     bool? twoFactor,
-    Pin? pin1,
-    Pin? pin2,
-    Pin? pin3,
-    Pin? pin4,
+    int? pin1,
+    int? pin2,
+    int? pin3,
+    int? pin4,
   }) {
     return LoginState(
       email: email ?? this.email,

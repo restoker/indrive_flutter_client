@@ -19,22 +19,22 @@ class PasswordChanged extends LoginEvent {
 class LoginSubmitEvent extends LoginEvent {}
 
 class Ping1Changed extends LoginEvent {
-  final String pin1;
+  final int pin1;
   Ping1Changed({required this.pin1});
 }
 
 class Ping2Changed extends LoginEvent {
-  final String pin2;
+  final int pin2;
   Ping2Changed({required this.pin2});
 }
 
 class Ping3Changed extends LoginEvent {
-  final String pin3;
+  final int pin3;
   Ping3Changed({required this.pin3});
 }
 
 class Ping4Changed extends LoginEvent {
-  final String pin4;
+  final int pin4;
   Ping4Changed({required this.pin4});
 }
 

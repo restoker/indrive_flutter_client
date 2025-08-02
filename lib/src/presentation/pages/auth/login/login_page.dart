@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/login/bloc/login_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/login/login_content.dart';
 import 'package:rive/rive.dart' as rive;
@@ -71,13 +72,29 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                       ),
                       SizedBox(height: constraints.maxHeight * 0.05),
-                      BlocBuilder<LoginBloc, LoginState>(
-                        builder: (context, state) {
-                          return Form(
-                            key: state.formKey,
-                            child: LoginContent(),
-                          );
+                      BlocListener<LoginBloc, LoginState>(
+                        listener: (context, state) {
+                          // TODO: implement listener
+                          if (state.formStatus == FormStatus.error) {
+                            Fluttertoast.showToast(
+                              msg: "Ingrese el código",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0,
+                            );
+                          }
                         },
+                        child: BlocBuilder<LoginBloc, LoginState>(
+                          builder: (context, state) {
+                            return Form(
+                              key: state.formKey,
+                              child: LoginContent(),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),

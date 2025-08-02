@@ -65,43 +65,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _ping1Changed(Ping1Changed event, Emitter<LoginState> emit) {
-    final pin1 = Pin.dirty(int.parse(event.pin1));
-    emit(
-      state.copyWith(
-        pin1: pin1,
-        isValid: Formz.validate([pin1, state.pin2, state.pin3, state.pin4]),
-      ),
-    );
+    emit(state.copyWith(pin1: event.pin1));
   }
 
   void _ping2Changed(Ping2Changed event, Emitter<LoginState> emit) {
-    final pin2 = Pin.dirty(int.parse(event.pin2));
-    emit(
-      state.copyWith(
-        pin2: pin2,
-        isValid: Formz.validate([pin2, state.pin1, state.pin3, state.pin4]),
-      ),
-    );
+    emit(state.copyWith(pin2: event.pin2));
   }
 
   void _ping3Changed(Ping3Changed event, Emitter<LoginState> emit) {
-    final pin3 = Pin.dirty(int.parse(event.pin3));
-    emit(
-      state.copyWith(
-        pin3: pin3,
-        isValid: Formz.validate([pin3, state.pin1, state.pin2, state.pin4]),
-      ),
-    );
+    emit(state.copyWith(pin3: event.pin3));
   }
 
   void _ping4Changed(Ping4Changed event, Emitter<LoginState> emit) {
-    final pin4 = Pin.dirty(int.parse(event.pin4));
-    emit(
-      state.copyWith(
-        pin4: pin4,
-        isValid: Formz.validate([pin4, state.pin1, state.pin2, state.pin3]),
-      ),
-    );
+    emit(state.copyWith(pin4: event.pin4));
   }
 
   void _loginSubmit(
@@ -152,19 +128,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
     AuthService authService,
   ) {
-    // emit(
-    //   state.copyWith(
-    //     pin1: state.pin1,
-    //     pin2: state.pin2,
-    //     pin3: state.pin3,
-    //     pin4: state.pin4,
-    //     formStatus: FormStatus.validating,
-    //   ),
-    // );
-    inspect(state.pin1);
-    inspect(state.pin2);
-    inspect(state.pin3);
-    inspect(state.pin4);
+    if (state.pin1 == 10 ||
+        state.pin2 == 10 ||
+        state.pin3 == 10 ||
+        state.pin4 == 10) {
+      emit(state.copyWith(formStatus: FormStatus.error));
+      emit(state.copyWith(formStatus: FormStatus.invalid));
+    } else {
+      // enviar codigo
+      inspect(state.pin1);
+      inspect(state.pin2);
+      inspect(state.pin3);
+      inspect(state.pin4);
+      emit(state.copyWith(formStatus: FormStatus.valid));
+    }
   }
 
   void _togglePassword(TogglePasswordEvent event, Emitter<LoginState> emit) {
