@@ -6,17 +6,13 @@ import 'package:indrive_flutter_client/src/data/api/api_config.dart';
 import 'package:indrive_flutter_client/src/domain/models/user_response.dart';
 
 class AuthService {
-  Future<UserResponse> login(
-    String email,
-    String password, {
-    String? code,
-  }) async {
+  Future<UserResponse> login(String email, String password, {int? code}) async {
     try {
       Uri url = Uri.http(ApiConfig.ipServer, '/users/login');
       Map<String, String> headers = {'Content-Type': 'application/json'};
       String body = json.encode({'email': email, 'password': password});
 
-      if (code != null && code.trim().isNotEmpty && code.trim().length == 4) {
+      if (code != null && code > 0 && code < 9999) {
         body = json.encode({
           'email': email,
           'password': password,

@@ -1,4 +1,4 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +7,6 @@ import 'package:formz/formz.dart';
 import 'package:indrive_flutter_client/src/data/DataSource/remote/services/auth_services.dart';
 import 'package:indrive_flutter_client/src/domain/models/user_response.dart';
 import 'package:indrive_flutter_client/src/infra/inputs/inputs.dart';
-import 'package:indrive_flutter_client/src/infra/inputs/pin.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -42,6 +41,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
 
     on<TogglePasswordEvent>(_togglePassword);
+
+    on<FormReset>((event, emit) => _formReset(event, emit));
   }
 
   void _emailChanged(EmailChanged event, Emitter<LoginState> emit) {
@@ -102,13 +103,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       // inspect(responseApi);
       if (responseApi.ok) {
         // verificar si tiene activado el dos factores
-        if (responseApi.user!.twoFactor == true) {
+        if (!responseApi.user!.twoFactor) {
+          emit(state.copyWith(formStatus: FormStatus.valid));
+          // redirigir al usuario a la pantalla principal y reiniciar el formulario
+        } else {
           // Enviar el codigo al correo electrónico
           emit(state.copyWith(twoFactor: true));
-        } else {
-          emit(state.copyWith(formStatus: FormStatus.invalid));
           // Guardar en shared preferences
         }
+      } else {
+        emit(state.copyWith(formStatus: FormStatus.error));
       }
       // .then((value) {
       //   emit(state.copyWith(formStatus: FormStatus.valid));
@@ -127,24 +131,45 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginSubmitTwoFactorEvent event,
     Emitter<LoginState> emit,
     AuthService authService,
-  ) {
+  ) async {
     if (state.pin1 == 10 ||
         state.pin2 == 10 ||
         state.pin3 == 10 ||
-        state.pin4 == 10) {
+        state.pin4 == 10 ||
+        state.pin1.isNaN ||
+        state.pin2.isNaN ||
+        state.pin3.isNaN ||
+        state.pin4.isNaN) {
       emit(state.copyWith(formStatus: FormStatus.error));
       emit(state.copyWith(formStatus: FormStatus.invalid));
     } else {
       // enviar codigo
-      inspect(state.pin1);
-      inspect(state.pin2);
-      inspect(state.pin3);
-      inspect(state.pin4);
-      emit(state.copyWith(formStatus: FormStatus.valid));
+      final code =
+          state.pin1 * 1000 + state.pin2 * 100 + state.pin3 * 10 + state.pin4;
+      UserResponse responseApi = await authService.login(
+        state.email.value,
+        state.password.value,
+        code: code,
+      );
+      if (responseApi.ok) {
+        emit(state.copyWith(formStatus: FormStatus.valid));
+        // guardar usuario en Shared preferences
+
+        // reinciar formulario
+        // emit(state.copyWith(formStatus: FormStatus.invalid));
+        state.formKey?.currentState?.reset();
+      } else {
+        emit(state.copyWith(formStatus: FormStatus.error));
+      }
     }
   }
 
   void _togglePassword(TogglePasswordEvent event, Emitter<LoginState> emit) {
     emit(state.copyWith(passwordReveal: !state.passwordReveal));
+  }
+
+  void _formReset(FormReset? event, Emitter<LoginState>? emit) {
+    emit!(state.copyWith(formStatus: FormStatus.invalid));
+    state.formKey?.currentState?.reset();
   }
 }

@@ -1,9 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:indrive_flutter_client/src/infra/inputs/email.dart';
-import 'package:indrive_flutter_client/src/infra/inputs/password.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/login/bloc/login_bloc.dart';
 import 'package:flutter/services.dart';
 
@@ -14,8 +10,8 @@ class LoginContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final loginBloc = context.watch<LoginBloc>();
 
-    // final twoFactor = loginBloc.state.twoFactor;
-    final twoFactor = true;
+    final twoFactor = loginBloc.state.twoFactor;
+    // final twoFactor = true;
 
     return twoFactor
         ? LoginFormWithTwoFactor(context: context)
@@ -232,10 +228,6 @@ class OtpForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginBloc = context.watch<LoginBloc>();
-    final pin1 = loginBloc.state.pin1;
-    final pin2 = loginBloc.state.pin2;
-    final pin3 = loginBloc.state.pin3;
-    final pin4 = loginBloc.state.pin4;
     return Form(
       child: Column(
         children: [

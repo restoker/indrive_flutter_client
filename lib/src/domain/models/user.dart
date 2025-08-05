@@ -13,7 +13,7 @@ class User {
   bool? isActive;
   String? notificationToken;
   List<Role?>? roles;
-  bool? twoFactor;
+  bool twoFactor;
 
   User({
     this.id,
@@ -28,7 +28,7 @@ class User {
     this.isActive,
     this.notificationToken,
     this.roles,
-    this.twoFactor,
+    this.twoFactor = false,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {

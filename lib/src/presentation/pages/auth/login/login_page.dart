@@ -86,6 +86,12 @@ class _LoginPageState extends State<LoginPage> {
                               fontSize: 16.0,
                             );
                           }
+                          if (state.formStatus == FormStatus.valid) {
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                              'client/home',
+                              (route) => false,
+                            );
+                          }
                         },
                         child: BlocBuilder<LoginBloc, LoginState>(
                           builder: (context, state) {

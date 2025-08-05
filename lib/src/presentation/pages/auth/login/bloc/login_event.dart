@@ -18,6 +18,8 @@ class PasswordChanged extends LoginEvent {
 
 class LoginSubmitEvent extends LoginEvent {}
 
+class FormReset extends LoginEvent {}
+
 class Ping1Changed extends LoginEvent {
   final int pin1;
   Ping1Changed({required this.pin1});
