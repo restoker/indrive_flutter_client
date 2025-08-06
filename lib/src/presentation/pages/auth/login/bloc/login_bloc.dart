@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:indrive_flutter_client/src/data/DataSource/remote/services/auth_services.dart';
+import 'package:indrive_flutter_client/src/domain/UseCases/auth/login_use_case.dart';
 import 'package:indrive_flutter_client/src/domain/models/user_response.dart';
 import 'package:indrive_flutter_client/src/infra/inputs/inputs.dart';
 
@@ -15,6 +16,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginState()) {
     final formKey = GlobalKey<FormState>();
     final authService = AuthService();
+    final loginUseCase = LoginUseCase();
 
     on<LoginInitEvent>((event, emit) {
       emit(state.copyWith(formKey: formKey));
@@ -33,11 +35,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<Ping4Changed>(_ping4Changed);
 
     on<LoginSubmitEvent>(
-      (event, emit) => _loginSubmit(event, emit, authService),
+      (event, emit) => _loginSubmit(event, emit, loginUseCase),
     );
 
     on<LoginSubmitTwoFactorEvent>(
-      (event, emit) => _loginSubmitTwoFactor(event, emit, authService),
+      (event, emit) => _loginSubmitTwoFactor(event, emit, loginUseCase),
     );
 
     on<TogglePasswordEvent>(_togglePassword);
@@ -84,7 +86,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   void _loginSubmit(
     LoginSubmitEvent event,
     Emitter<LoginState> emit,
-    AuthService authService,
+    LoginUseCase loginUseCase,
   ) async {
     emit(
       state.copyWith(
@@ -96,7 +98,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
 
     if (state.isValid) {
-      UserResponse responseApi = await authService.login(
+      UserResponse responseApi = await loginUseCase.run(
         state.email.value,
         state.password.value,
       );
@@ -130,7 +132,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   void _loginSubmitTwoFactor(
     LoginSubmitTwoFactorEvent event,
     Emitter<LoginState> emit,
-    AuthService authService,
+    LoginUseCase loginUseCase,
   ) async {
     if (state.pin1 == 10 ||
         state.pin2 == 10 ||
@@ -146,7 +148,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       // enviar codigo
       final code =
           state.pin1 * 1000 + state.pin2 * 100 + state.pin3 * 10 + state.pin4;
-      UserResponse responseApi = await authService.login(
+      UserResponse responseApi = await loginUseCase.run(
         state.email.value,
         state.password.value,
         code: code,

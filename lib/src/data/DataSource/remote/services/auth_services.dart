@@ -49,4 +49,35 @@ class AuthService {
       return UserResponse(ok: false, msg: 'Error en la conexión al servidor');
     }
   }
+
+  Future<UserResponse> registro(
+    String nombre,
+    String email,
+    String telefono,
+    String password,
+  ) async {
+    try {
+      Uri url = Uri.http(ApiConfig.ipServer, '/users/new');
+      Map<String, String> headers = {'Content-Type': "application/json"};
+
+      String body = json.encode({
+        'nombre': nombre,
+        'telefono': telefono,
+        'email': email,
+        'password': password,
+      });
+
+      final response = await http.post(url, headers: headers, body: body);
+      final data = json.decode(response.body);
+      final authResponse = UserResponse.fromJson(data);
+      return authResponse;
+      // return AuthResponse(ok: true, msg: 'Todo bien');
+    } on TimeoutException catch (_) {
+      // A timeout occurred.
+      return UserResponse(ok: false, msg: 'Error en el tiempo de conexion');
+    } on Exception catch (_) {
+      // inspect(e);
+      return UserResponse(ok: false, msg: 'Error en la conexion al servidor');
+    }
+  }
 }
