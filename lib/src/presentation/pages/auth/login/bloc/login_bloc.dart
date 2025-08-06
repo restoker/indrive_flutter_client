@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:indrive_flutter_client/src/domain/UseCases/auth/auth_use_cases.dart';
 import 'package:indrive_flutter_client/src/domain/UseCases/auth/login_use_case.dart';
 import 'package:indrive_flutter_client/src/domain/models/user_response.dart';
 import 'package:indrive_flutter_client/src/infra/inputs/inputs.dart';
@@ -12,10 +13,10 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(LoginState()) {
-    final formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
+  final AuthUseCases authUseCases;
+  LoginBloc(this.authUseCases) : super(LoginState()) {
     // final authService = AuthService();
-    final loginUseCase = LoginUseCase();
 
     on<LoginInitEvent>((event, emit) {
       emit(state.copyWith(formKey: formKey));
@@ -34,11 +35,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<Ping4Changed>(_ping4Changed);
 
     on<LoginSubmitEvent>(
-      (event, emit) => _loginSubmit(event, emit, loginUseCase),
+      (event, emit) => _loginSubmit(event, emit, authUseCases.login),
     );
 
     on<LoginSubmitTwoFactorEvent>(
-      (event, emit) => _loginSubmitTwoFactor(event, emit, loginUseCase),
+      (event, emit) => _loginSubmitTwoFactor(event, emit, authUseCases.login),
     );
 
     on<TogglePasswordEvent>(_togglePassword);
