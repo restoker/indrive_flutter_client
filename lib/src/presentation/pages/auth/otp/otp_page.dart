@@ -31,7 +31,7 @@ class OtpForm extends StatefulWidget {
   const OtpForm({super.key});
 
   @override
-  _OtpFormState createState() => _OtpFormState();
+  State<OtpForm> createState() => _OtpFormState();
 }
 
 class _OtpFormState extends State<OtpForm> {
@@ -157,12 +157,12 @@ class OtpTextFormField extends StatelessWidget {
   final bool autofocus;
 
   const OtpTextFormField({
-    Key? key,
+    super.key,
     this.focusNode,
     this.onChanged,
     this.onSaved,
     this.autofocus = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -190,11 +190,12 @@ class LogoWithTitle extends StatelessWidget {
   final List<Widget> children;
 
   const LogoWithTitle({
-    Key? key,
+    super.key,
     required this.title,
     this.subText = '',
     required this.children,
-  }) : super(key: key);
+  });
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -228,7 +229,7 @@ class LogoWithTitle extends StatelessWidget {
                       height: 1.5,
                       color: Theme.of(
                         context,
-                      ).textTheme.bodyLarge!.color!.withOpacity(0.64),
+                      ).textTheme.bodyLarge!.color!.withValues(alpha: 0.64),
                     ),
                   ),
                 ),

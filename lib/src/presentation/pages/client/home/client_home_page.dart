@@ -162,7 +162,7 @@ class DiscountBanner extends StatelessWidget {
         color: const Color(0xFF00BF6D),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

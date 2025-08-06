@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:indrive_flutter_client/src/data/DataSource/remote/services/auth_services.dart';
 import 'package:indrive_flutter_client/src/domain/UseCases/auth/login_use_case.dart';
 import 'package:indrive_flutter_client/src/domain/models/user_response.dart';
 import 'package:indrive_flutter_client/src/infra/inputs/inputs.dart';
@@ -15,7 +14,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginState()) {
     final formKey = GlobalKey<FormState>();
-    final authService = AuthService();
+    // final authService = AuthService();
     final loginUseCase = LoginUseCase();
 
     on<LoginInitEvent>((event, emit) {
