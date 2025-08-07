@@ -48,7 +48,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
     if (responseApi.ok) {
       emit(state.copyWith(formStatus: FormStatus.valid));
-      // redirigir al usuario a la pantalla principal y reiniciar el formulario
+      // resetear el formulario
+      state.formKey?.currentState?.reset();
+      emit(state.copyWith(formStatus: FormStatus.invalid));
     } else {
       emit(state.copyWith(formStatus: FormStatus.invalid));
     }

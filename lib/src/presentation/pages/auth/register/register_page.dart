@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/register/bloc/register_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/register/register_content.dart';
 import 'package:rive/rive.dart' as rive;
@@ -75,10 +76,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       BlocListener<RegisterBloc, RegisterState>(
                         listener: (context, state) {
                           if (state.formStatus == FormStatus.validating) {
-                            // add loader
                             SimpleDialog(
-                              backgroundColor: Colors
-                                  .transparent, //here set the color to transparent
+                              backgroundColor: Colors.transparent,
                               elevation: 0,
                               children: [
                                 Column(
@@ -96,6 +95,20 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                               ],
                             );
+                          }
+                          if (state.formStatus == FormStatus.valid) {
+                            // mostrar mensaje de exito
+                            Fluttertoast.showToast(
+                              msg:
+                                  "Registro exitoso, se envio un email de verificación a su correo",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.green,
+                              textColor: Colors.white,
+                              fontSize: 16.0,
+                            );
+                            Navigator.pushNamed(context, '/login');
                           }
                         },
                         child: BlocBuilder<RegisterBloc, RegisterState>(
