@@ -74,7 +74,6 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(height: constraints.maxHeight * 0.05),
                       BlocListener<LoginBloc, LoginState>(
                         listener: (context, state) {
-                          // TODO: implement listener
                           if (state.formStatus == FormStatus.error) {
                             Fluttertoast.showToast(
                               msg: "Ingrese el código",
@@ -87,6 +86,15 @@ class _LoginPageState extends State<LoginPage> {
                             );
                           }
                           if (state.formStatus == FormStatus.valid) {
+                            Fluttertoast.showToast(
+                              msg: "Bienvenido nuevamente",
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 2,
+                              backgroundColor: Colors.green,
+                              textColor: Colors.white,
+                              fontSize: 16.0,
+                            );
                             Navigator.of(context).pushNamedAndRemoveUntil(
                               'client/home',
                               (route) => false,
