@@ -15,6 +15,7 @@ abstract class AppModule {
   AuthRepository get authRepository =>
       AuthRepositoryImpl(authService: authService);
 
+  @injectable
   AuthUseCases get authUseCases => AuthUseCases(
     login: LoginUseCase(authRepository: authRepository),
     register: RegisterUseCase(authRepository: authRepository),

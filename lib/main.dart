@@ -14,6 +14,7 @@ void main() async {
   runApp(const MyApp());
 }
 
+// dart run build_runner build
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
               LoginBloc(locator<AuthUseCases>())..add(LoginInitEvent()),
         ),
         BlocProvider(
-          create: (context) => RegisterBloc()..add(RegisterInitEvent()),
+          create: (context) =>
+              RegisterBloc(locator<AuthUseCases>())..add(RegisterInitEvent()),
         ),
       ],
       child: MaterialApp(

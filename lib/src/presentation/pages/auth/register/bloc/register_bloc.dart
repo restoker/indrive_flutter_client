@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:indrive_flutter_client/src/domain/UseCases/auth/auth_use_cases.dart';
+import 'package:indrive_flutter_client/src/domain/models/user_response.dart';
 import 'package:indrive_flutter_client/src/presentation/utils/bloc_form_item.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  RegisterBloc() : super(RegisterState()) {
-    final formKey = GlobalKey<FormState>();
-
+  final formKey = GlobalKey<FormState>();
+  final AuthUseCases authUseCases;
+  RegisterBloc(this.authUseCases) : super(RegisterState()) {
     on<RegisterInitEvent>((event, emit) {
       emit(state.copyWith(formKey: formKey));
     });
@@ -33,9 +35,23 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<FormReset>((event, emit) => _formReset(event, emit));
   }
 
-  void _registerSubmit(RegisterSubmit event, Emitter<RegisterState> emit) {
+  Future<void> _registerSubmit(
+    RegisterSubmit event,
+    Emitter<RegisterState> emit,
+  ) async {
     emit(state.copyWith(formStatus: FormStatus.validating));
-    emit(state.copyWith(formStatus: FormStatus.valid));
+    UserResponse responseApi = await authUseCases.register.run(
+      state.nombre.value,
+      state.email.value,
+      state.telefono.value,
+      state.password.value,
+    );
+    if (responseApi.ok) {
+      emit(state.copyWith(formStatus: FormStatus.valid));
+      // redirigir al usuario a la pantalla principal y reiniciar el formulario
+    } else {
+      emit(state.copyWith(formStatus: FormStatus.invalid));
+    }
     // inspect(state.telefono.value);
     // inspect(state.email.value);
     // inspect(state.password.value);

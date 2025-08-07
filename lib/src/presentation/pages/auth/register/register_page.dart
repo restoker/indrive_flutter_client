@@ -97,30 +97,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               ],
                             );
                           }
-
-                          if (state.formStatus == FormStatus.posting) {
-                            // show loading
-                            SimpleDialog(
-                              backgroundColor: Colors
-                                  .transparent, //here set the color to transparent
-                              elevation: 0,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    CircularProgressIndicator(
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      'Cargando...',
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            );
-                          }
                         },
                         child: BlocBuilder<RegisterBloc, RegisterState>(
                           builder: (context, state) {
