@@ -22,7 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(state.copyWith(formKey: formKey));
       UserResponse? session = await authUseCases.getSession.run();
       if (session != null) {
-        emit(state.copyWith(formStatus: FormStatus.valid));
+        emit(state.copyWith(formStatus: FormStatus.session));
       } else {
         emit(state.copyWith(formStatus: FormStatus.invalid));
       }
@@ -166,8 +166,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(state.copyWith(formStatus: FormStatus.valid));
         emit(state.copyWith(userResponse: responseApi));
         // reinciar formulario
-        // emit(state.copyWith(formStatus: FormStatus.invalid));
         state.formKey?.currentState?.reset();
+        // emit(state.copyWith(formStatus: FormStatus.invalid));
       } else {
         emit(state.copyWith(formStatus: FormStatus.error));
       }

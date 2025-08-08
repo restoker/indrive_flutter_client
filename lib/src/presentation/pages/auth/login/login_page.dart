@@ -85,6 +85,13 @@ class _LoginPageState extends State<LoginPage> {
                               fontSize: 16.0,
                             );
                           }
+                          if (state.formStatus == FormStatus.session) {
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                              'client/home',
+                              (route) => false,
+                            );
+                          }
+
                           if (state.formStatus == FormStatus.valid) {
                             Fluttertoast.showToast(
                               msg: "Bienvenido nuevamente",

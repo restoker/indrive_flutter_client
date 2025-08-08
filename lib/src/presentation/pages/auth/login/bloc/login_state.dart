@@ -1,7 +1,7 @@
 part of 'login_bloc.dart';
 
 // https://github.com/Klerith/flutter-formularios/blob/fin-seccion-19-formz/lib/presentation/blocs/counter_bloc/counter_state.dart
-enum FormStatus { invalid, valid, validating, posting, error }
+enum FormStatus { invalid, valid, validating, posting, error, session }
 
 class LoginState extends Equatable {
   final Email email;
