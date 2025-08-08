@@ -20,6 +20,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     on<LoginInitEvent>((event, emit) async {
       emit(state.copyWith(formKey: formKey));
+      emit(state.copyWith(formStatus: FormStatus.validating));
       UserResponse? session = await authUseCases.getSession.run();
       if (session != null) {
         emit(state.copyWith(formStatus: FormStatus.session));
@@ -114,8 +115,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (responseApi.ok) {
         // verificar si tiene activado el dos factores
         if (!responseApi.user!.twoFactor) {
-          emit(state.copyWith(formStatus: FormStatus.valid));
           emit(state.copyWith(userResponse: responseApi));
+          emit(state.copyWith(formStatus: FormStatus.valid));
           // redirigir al usuario a la pantalla principal y reiniciar el formulario
         } else {
           // Enviar el codigo al correo electrónico

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:indrive_flutter_client/src/data/api/api_config.dart';
 import 'package:indrive_flutter_client/src/domain/models/user_response.dart';
@@ -26,7 +25,7 @@ class AuthService {
         final data = json.decode(response.body);
         if (data['ok'] == true) {
           final userData = UserResponse.fromJson(data);
-          inspect(userData);
+          // inspect(userData);
           return userData;
         } else {
           return UserResponse(ok: false, msg: data['msg']);

@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                         listener: (context, state) {
                           if (state.formStatus == FormStatus.error) {
                             Fluttertoast.showToast(
-                              msg: "Ingrese el código",
+                              msg: "Error al iniciar sesión",
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 1,
