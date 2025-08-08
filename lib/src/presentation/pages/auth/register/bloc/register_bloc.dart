@@ -52,12 +52,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       state.formKey?.currentState?.reset();
       emit(state.copyWith(formStatus: FormStatus.invalid));
     } else {
-      emit(state.copyWith(formStatus: FormStatus.invalid));
+      emit(state.copyWith(formStatus: FormStatus.error));
+      // emit(state.copyWith(formStatus: FormStatus.invalid));
     }
-    // inspect(state.telefono.value);
-    // inspect(state.email.value);
-    // inspect(state.password.value);
-    // inspect(state.confirmarPassword.value);
     // if (state.isValid) {
     //   _formReset(null, null);
     // } else {

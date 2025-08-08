@@ -15,6 +15,7 @@ class LoginState extends Equatable {
   final int pin2;
   final int pin3;
   final int pin4;
+  final UserResponse? userResponse;
 
   const LoginState({
     this.email = const Email.pure(),
@@ -28,6 +29,7 @@ class LoginState extends Equatable {
     this.pin2 = 10,
     this.pin3 = 10,
     this.pin4 = 10,
+    this.userResponse,
   });
 
   LoginState copyWith({
@@ -42,6 +44,7 @@ class LoginState extends Equatable {
     int? pin2,
     int? pin3,
     int? pin4,
+    UserResponse? userResponse,
   }) {
     return LoginState(
       email: email ?? this.email,
@@ -55,6 +58,7 @@ class LoginState extends Equatable {
       pin2: pin2 ?? this.pin2,
       pin3: pin3 ?? this.pin3,
       pin4: pin4 ?? this.pin4,
+      userResponse: userResponse ?? this.userResponse,
     );
   }
 

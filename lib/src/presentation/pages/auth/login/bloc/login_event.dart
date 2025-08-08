@@ -18,6 +18,11 @@ class PasswordChanged extends LoginEvent {
 
 class LoginSubmitEvent extends LoginEvent {}
 
+class SaveSessionEvent extends LoginEvent {
+  final UserResponse userResponse;
+  SaveSessionEvent({required this.userResponse});
+}
+
 class FormReset extends LoginEvent {}
 
 class Ping1Changed extends LoginEvent {

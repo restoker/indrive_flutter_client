@@ -8,7 +8,7 @@ import 'package:indrive_flutter_client/src/presentation/pages/auth/register/regi
 import 'package:rive/rive.dart' as rive;
 
 class RegisterPage extends StatefulWidget {
-  RegisterPage({super.key});
+  const RegisterPage({super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -94,6 +94,17 @@ class _RegisterPageState extends State<RegisterPage> {
                                   ],
                                 ),
                               ],
+                            );
+                          }
+                          if (state.formStatus == FormStatus.error) {
+                            Fluttertoast.showToast(
+                              msg: "Error al registrar usuario",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0,
                             );
                           }
                           if (state.formStatus == FormStatus.valid) {

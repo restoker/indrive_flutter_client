@@ -1,6 +1,6 @@
 part of 'register_bloc.dart';
 
-enum FormStatus { invalid, valid, validating, posting }
+enum FormStatus { invalid, valid, validating, posting, error }
 
 class RegisterState extends Equatable {
   final BlocFormItem nombre;

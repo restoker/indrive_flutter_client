@@ -18,8 +18,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(this.authUseCases) : super(LoginState()) {
     // final authService = AuthService();
 
-    on<LoginInitEvent>((event, emit) {
+    on<LoginInitEvent>((event, emit) async {
       emit(state.copyWith(formKey: formKey));
+      UserResponse? session = await authUseCases.getSession.run();
+      if (session != null) {
+        emit(state.copyWith(formStatus: FormStatus.valid));
+      } else {
+        emit(state.copyWith(formStatus: FormStatus.invalid));
+      }
     });
 
     on<EmailChanged>(_emailChanged);
@@ -45,6 +51,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<TogglePasswordEvent>(_togglePassword);
 
     on<FormReset>((event, emit) => _formReset(event, emit));
+
+    on<SaveSessionEvent>(_saveSession);
   }
 
   void _emailChanged(EmailChanged event, Emitter<LoginState> emit) {
@@ -107,6 +115,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         // verificar si tiene activado el dos factores
         if (!responseApi.user!.twoFactor) {
           emit(state.copyWith(formStatus: FormStatus.valid));
+          emit(state.copyWith(userResponse: responseApi));
           // redirigir al usuario a la pantalla principal y reiniciar el formulario
         } else {
           // Enviar el codigo al correo electrónico
@@ -155,8 +164,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       );
       if (responseApi.ok) {
         emit(state.copyWith(formStatus: FormStatus.valid));
-        // guardar usuario en Shared preferences
-
+        emit(state.copyWith(userResponse: responseApi));
         // reinciar formulario
         // emit(state.copyWith(formStatus: FormStatus.invalid));
         state.formKey?.currentState?.reset();
@@ -173,5 +181,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   void _formReset(FormReset? event, Emitter<LoginState>? emit) {
     emit!(state.copyWith(formStatus: FormStatus.invalid));
     state.formKey?.currentState?.reset();
+  }
+
+  void _saveSession(SaveSessionEvent event, Emitter<LoginState> emit) async {
+    emit(state.copyWith(formStatus: FormStatus.validating));
+    await authUseCases.saveSession.run(event.userResponse);
+    emit(state.copyWith(formStatus: FormStatus.valid));
   }
 }

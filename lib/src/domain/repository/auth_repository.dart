@@ -8,4 +8,7 @@ abstract class AuthRepository {
     String telefono,
     String password,
   );
+  Future<void> saveUserSession(UserResponse userResponse);
+  Future<UserResponse?> getUserSession();
+  Future<bool> removeUserSession();
 }
