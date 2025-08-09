@@ -1,7 +1,6 @@
 // import 'dart:developer';
 
-import 'dart:developer';
-
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -18,13 +17,50 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final formKey = GlobalKey<FormState>();
   final AuthUseCases authUseCases;
   LoginBloc(this.authUseCases) : super(LoginState()) {
-    // final authService = AuthService();
+    String decodeBase64(String str) {
+      String output = str.replaceAll('-', '+').replaceAll('_', '/');
+
+      switch (output.length % 4) {
+        case 0:
+          break;
+        case 2:
+          output += '==';
+          break;
+        case 3:
+          output += '=';
+          break;
+        default:
+          throw Exception('Illegal base64url string!"');
+      }
+
+      return utf8.decode(base64Url.decode(output));
+    }
 
     on<LoginInitEvent>((event, emit) async {
       emit(state.copyWith(formKey: formKey));
       UserResponse? session = await authUseCases.getSession.run();
-      inspect(session);
       if (session != null) {
+        final token = session.token;
+        final parts = token!.split('.');
+        final payload = parts[1];
+        if (parts.length != 3) {
+          emit(state.copyWith(formStatus: FormStatus.error));
+        }
+
+        final decodedPayload = decodeBase64(payload);
+        final payloadJson = json.decode(decodedPayload);
+        if (payloadJson is! Map<String, dynamic>) {
+          emit(state.copyWith(formStatus: FormStatus.error));
+        }
+        final expiresAt = payloadJson['exp'];
+        final now = DateTime.now().millisecondsSinceEpoch / 1000;
+        if (expiresAt < now) {
+          //  emit(state.copyWith(formStatus: FormStatus.error));
+          print("Session expired :D");
+          // cerrar session y remover de shared preferences
+          // await authUseCases.removeSession.run();
+        }
+
         emit(
           state.copyWith(userResponse: session, formStatus: FormStatus.session),
         );
