@@ -6,6 +6,7 @@ import 'package:indrive_flutter_client/src/domain/UseCases/auth/auth_use_cases.d
 import 'package:indrive_flutter_client/src/presentation/pages/auth/login/bloc/login_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/register/bloc/register_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/router.dart';
+import 'package:indrive_flutter_client/src/presentation/pages/client/home/bloc/home_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/client/route.dart';
 
 void main() async {
@@ -22,13 +23,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
+        BlocProvider<LoginBloc>(
           create: (context) =>
               LoginBloc(locator<AuthUseCases>())..add(LoginInitEvent()),
         ),
-        BlocProvider(
+        BlocProvider<RegisterBloc>(
           create: (context) =>
               RegisterBloc(locator<AuthUseCases>())..add(RegisterInitEvent()),
+        ),
+        BlocProvider<HomeBloc>(
+          create: (context) => HomeBloc(locator<AuthUseCases>()),
         ),
       ],
       child: MaterialApp(
