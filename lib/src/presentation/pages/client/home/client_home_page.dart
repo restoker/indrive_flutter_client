@@ -1,27 +1,159 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:indrive_flutter_client/main.dart';
+import 'package:indrive_flutter_client/src/presentation/pages/client/home/bloc/home_bloc.dart';
+import 'package:indrive_flutter_client/src/presentation/pages/client/mapseeker/client_mapseeker_page.dart';
+import 'package:indrive_flutter_client/src/presentation/pages/profile/info/profile_info_page.dart';
 
-class ClientHomePage extends StatelessWidget {
+class ClientHomePage extends StatefulWidget {
   const ClientHomePage({super.key});
 
   @override
+  State<ClientHomePage> createState() => _ClientHomePageState();
+}
+
+class _ClientHomePageState extends State<ClientHomePage> {
+  List<Widget> pageList = [ClientMapseekerPage(), ProfileInfoPage()];
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Menú de opciones'),
+        centerTitle: true,
+        actions: [],
+      ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(vertical: 16),
-          child: Column(
-            children: [
-              HomeHeader(),
-              DiscountBanner(),
-              Categories(),
-              SpecialOffers(),
-              SizedBox(height: 20),
-              PopularProducts(),
-              SizedBox(height: 20),
-            ],
+        child: Center(
+          child: Text(
+            'Hola Desde Client HomePage',
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+              fontWeight: FontWeight.bold,
+              fontSize: 32,
+            ),
           ),
         ),
+      ),
+      drawer: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          final homeBloc = context.watch<HomeBloc>();
+          return Drawer(
+            child: Column(
+              children: [
+                // DrawerHeader(
+                //   decoration: BoxDecoration(
+                //     color: Colors.amber,
+                //     gradient: LinearGradient(
+                //       begin: Alignment.topLeft,
+                //       end: Alignment.bottomRight,
+                //       colors: const [
+                //         Colors.black,
+                //         Color.fromARGB(194, 94, 73, 10),
+                //         Colors.blue,
+                //         Colors.black,
+                //         // Colors.grey,
+                //       ],
+                //       stops: const [0.1, 0.4, 0.8, 1],
+                //     ),
+                //   ),
+                //   child: Text(
+                //     'Menu del cliente',
+                //     style: TextStyle(
+                //       color: Colors.white,
+                //     ),
+                //   ),
+                // ),
+                Stack(
+                  children: [
+                    FadeInImage.assetNetwork(
+                      placeholder: 'assets/img/loading.gif',
+                      image:
+                          'https://cdn.cosmos.so/caf109bb-413f-4710-8b0c-91b6ed7df8a5?format=jpeg',
+                      height: 200.0,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                      bottom: 20.0,
+                      left: 20.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 80.0,
+                            width: 80.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                width: 3.0,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            child: ClipOval(
+                              child: Image(
+                                image: AssetImage('assets/img/user_image.png'),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            'Nombre',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            'Email',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                ListTile(
+                  title: Text('Mapa de busqueda'),
+                  selected: state.pageIndex == 0,
+                  onTap: () {
+                    homeBloc.add(ChangeIndexEvent(indexPage: 0));
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Text('Perfil de usuario'),
+                  selected: state.pageIndex == 1,
+                  onTap: () {
+                    homeBloc.add(ChangeIndexEvent(indexPage: 1));
+                    Navigator.pop(context);
+                  },
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: ListTile(
+                      leading: Icon(Icons.logout_sharp),
+                      title: Text('Cerrar sesión'),
+                      onTap: () {
+                        homeBloc.add(LogOutEvent());
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyApp()),
+                          (route) => false,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

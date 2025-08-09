@@ -9,4 +9,4 @@ class ChangeIndexEvent extends HomeEvent {
   ChangeIndexEvent({required this.indexPage});
 }
 
-class LogoutEvent extends HomeEvent {}
+class LogOutEvent extends HomeEvent {}

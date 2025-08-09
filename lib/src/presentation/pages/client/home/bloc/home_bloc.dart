@@ -15,7 +15,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(state.copyWith(pageIndex: event.indexPage, formkey: formkey));
     });
 
-    on<LogoutEvent>((event, emit) async {
+    on<LogOutEvent>((event, emit) async {
       // await authUseCases.logout.run();
     });
   }
