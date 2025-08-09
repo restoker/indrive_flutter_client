@@ -1,3 +1,5 @@
+// import 'dart:developer';
+
 import 'package:indrive_flutter_client/src/domain/models/role.dart';
 
 class User {
@@ -32,7 +34,6 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
-    // inspect(json['verificated']);
     return User(
       id: json["id"],
       // createdAt: DateTime.parse(json["createdAt"]),
@@ -48,7 +49,7 @@ class User {
       roles: json["roles"] != null
           ? List<Role>.from(json["roles"].map((x) => Role.fromJson(x)))
           : [],
-      twoFactor: json['two_factor_enabled'],
+      twoFactor: json['two_factor_enabled'] ?? false,
     );
   }
 
@@ -67,6 +68,6 @@ class User {
     "roles": roles != null
         ? List<dynamic>.from(roles!.map((x) => x?.toJson()))
         : [],
-    "two_factor_code": twoFactor,
+    "two_factor_enabled": twoFactor,
   };
 }

@@ -1,5 +1,7 @@
 // import 'dart:developer';
 
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -20,10 +22,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     on<LoginInitEvent>((event, emit) async {
       emit(state.copyWith(formKey: formKey));
-      emit(state.copyWith(formStatus: FormStatus.validating));
       UserResponse? session = await authUseCases.getSession.run();
+      inspect(session);
       if (session != null) {
-        emit(state.copyWith(formStatus: FormStatus.session));
+        emit(
+          state.copyWith(userResponse: session, formStatus: FormStatus.session),
+        );
       } else {
         emit(state.copyWith(formStatus: FormStatus.invalid));
       }
@@ -115,8 +119,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (responseApi.ok) {
         // verificar si tiene activado el dos factores
         if (!responseApi.user!.twoFactor) {
-          emit(state.copyWith(userResponse: responseApi));
-          emit(state.copyWith(formStatus: FormStatus.valid));
+          emit(
+            state.copyWith(
+              userResponse: responseApi,
+              formStatus: FormStatus.valid,
+            ),
+          );
           // redirigir al usuario a la pantalla principal y reiniciar el formulario
         } else {
           // Enviar el codigo al correo electrónico
@@ -135,7 +143,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       // inspect(state);
     } else {
       // mostrar mensaje de error
-      emit(state.copyWith(formStatus: FormStatus.invalid));
+      emit(state.copyWith(formStatus: FormStatus.invalid, formKey: formKey));
     }
   }
 
@@ -152,8 +160,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         state.pin2.isNaN ||
         state.pin3.isNaN ||
         state.pin4.isNaN) {
-      emit(state.copyWith(formStatus: FormStatus.error));
-      emit(state.copyWith(formStatus: FormStatus.invalid));
+      emit(state.copyWith(formStatus: FormStatus.error, formKey: formKey));
+      emit(state.copyWith(formStatus: FormStatus.invalid, formKey: formKey));
     } else {
       // enviar codigo
       final code =
@@ -164,13 +172,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         code: code,
       );
       if (responseApi.ok) {
-        emit(state.copyWith(formStatus: FormStatus.valid));
-        emit(state.copyWith(userResponse: responseApi));
+        emit(state.copyWith(formStatus: FormStatus.valid, formKey: formKey));
+        emit(state.copyWith(userResponse: responseApi, formKey: formKey));
         // reinciar formulario
         state.formKey?.currentState?.reset();
         // emit(state.copyWith(formStatus: FormStatus.invalid));
       } else {
-        emit(state.copyWith(formStatus: FormStatus.error));
+        emit(state.copyWith(formStatus: FormStatus.error, formKey: formKey));
       }
     }
   }
@@ -180,13 +188,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _formReset(FormReset? event, Emitter<LoginState>? emit) {
-    emit!(state.copyWith(formStatus: FormStatus.invalid));
+    emit!(state.copyWith(formStatus: FormStatus.invalid, formKey: formKey));
     state.formKey?.currentState?.reset();
   }
 
   void _saveSession(SaveSessionEvent event, Emitter<LoginState> emit) async {
-    emit(state.copyWith(formStatus: FormStatus.validating));
+    // emit(state.copyWith(formStatus: FormStatus.validating, formKey: formKey));
     await authUseCases.saveSession.run(event.userResponse);
-    emit(state.copyWith(formStatus: FormStatus.valid));
+    // emit(state.copyWith(formStatus: FormStatus.valid, formKey: formKey));
   }
 }

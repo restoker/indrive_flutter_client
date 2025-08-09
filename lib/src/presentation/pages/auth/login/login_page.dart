@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,6 +75,27 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(height: constraints.maxHeight * 0.05),
                       BlocListener<LoginBloc, LoginState>(
                         listener: (context, state) {
+                          if (state.formStatus == FormStatus.validating) {
+                            SimpleDialog(
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CircularProgressIndicator(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      'Cargando...',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          }
                           if (state.formStatus == FormStatus.error) {
                             Fluttertoast.showToast(
                               msg: "Error al iniciar sesión",
@@ -86,6 +108,12 @@ class _LoginPageState extends State<LoginPage> {
                             );
                           }
                           if (state.formStatus == FormStatus.session) {
+                            // inspect(object)
+                            // context.read<LoginBloc>().add(
+                            //   SaveSessionEvent(
+                            //     userResponse: state.userResponse!,
+                            //   ),
+                            // );
                             Navigator.of(context).pushNamedAndRemoveUntil(
                               'client/home',
                               (route) => false,
@@ -94,13 +122,18 @@ class _LoginPageState extends State<LoginPage> {
 
                           if (state.formStatus == FormStatus.valid) {
                             Fluttertoast.showToast(
-                              msg: "Bienvenido nuevamente",
+                              msg: state.userResponse!.msg,
                               toastLength: Toast.LENGTH_LONG,
                               gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 2,
                               backgroundColor: Colors.green,
                               textColor: Colors.white,
                               fontSize: 16.0,
+                            );
+                            context.read<LoginBloc>().add(
+                              SaveSessionEvent(
+                                userResponse: state.userResponse!,
+                              ),
                             );
                             Navigator.of(context).pushNamedAndRemoveUntil(
                               'client/home',
