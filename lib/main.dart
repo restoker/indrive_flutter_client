@@ -8,6 +8,8 @@ import 'package:indrive_flutter_client/src/presentation/pages/auth/register/bloc
 import 'package:indrive_flutter_client/src/presentation/pages/auth/router.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/client/home/bloc/home_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/client/route.dart';
+import 'package:indrive_flutter_client/src/presentation/pages/profile/info/bloc/profile_info_bloc.dart';
+import 'package:indrive_flutter_client/src/presentation/pages/profile/update/profile_update_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +36,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<HomeBloc>(
           create: (context) => HomeBloc(locator<AuthUseCases>()),
         ),
+        BlocProvider<ProfileInfoBloc>(
+          create: (context) =>
+              ProfileInfoBloc(locator<AuthUseCases>())..add(GetUserEvent()),
+        ),
       ],
       child: MaterialApp(
         title: 'Recicle App',
@@ -45,6 +51,7 @@ class MyApp extends StatelessWidget {
           'login': (BuildContext context) => LoginPage(),
           'register': (BuildContext context) => RegisterPage(),
           'client/home': (BuildContext context) => ClientHomePage(),
+          'profile/update': (BuildContext context) => ProfileUpdatePage(),
         },
       ),
     );

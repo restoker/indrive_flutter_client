@@ -26,7 +26,16 @@ class _ClientHomePageState extends State<ClientHomePage> {
     final homeBloc = context.read<HomeBloc>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Menú de opciones'),
+        backgroundColor: const Color(0xFF00BF6D),
+        title: Text(
+          'Re-cicle',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 25.0,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
         centerTitle: true,
         actions: [],
       ),
