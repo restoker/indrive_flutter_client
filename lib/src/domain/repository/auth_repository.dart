@@ -10,5 +10,5 @@ abstract class AuthRepository {
   );
   Future<void> saveUserSession(UserResponse userResponse);
   Future<UserResponse?> getUserSession();
-  Future<bool> removeUserSession();
+  Future<bool> logout();
 }

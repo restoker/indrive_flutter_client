@@ -4,6 +4,7 @@ import 'package:indrive_flutter_client/src/data/repository/auth_repository_impl.
 import 'package:indrive_flutter_client/src/domain/UseCases/auth/auth_use_cases.dart';
 import 'package:indrive_flutter_client/src/domain/UseCases/auth/get_session_use_case.dart';
 import 'package:indrive_flutter_client/src/domain/UseCases/auth/login_use_case.dart';
+import 'package:indrive_flutter_client/src/domain/UseCases/auth/logout_use_case.dart';
 import 'package:indrive_flutter_client/src/domain/UseCases/auth/register_use_case.dart';
 import 'package:indrive_flutter_client/src/domain/UseCases/auth/save_session_use_case.dart';
 import 'package:indrive_flutter_client/src/domain/repository/auth_repository.dart';
@@ -27,5 +28,6 @@ abstract class AppModule {
     register: RegisterUseCase(authRepository: authRepository),
     saveSession: SaveSessionUseCase(authRepository: authRepository),
     getSession: GetSessionUseCase(authRepository: authRepository),
+    logOut: LogOutUseCase(authRepository: authRepository),
   );
 }

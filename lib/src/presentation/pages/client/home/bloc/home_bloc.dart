@@ -16,7 +16,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<LogOutEvent>((event, emit) async {
-      // await authUseCases.logout.run();
+      final result = await authUseCases.logOut.run();
+      if (result) {
+        emit(state.copyWith(homePageStatus: HomePageStatus.valid));
+      } else {
+        emit(state.copyWith(homePageStatus: HomePageStatus.error));
+      }
     });
   }
 }

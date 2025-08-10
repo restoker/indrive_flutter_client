@@ -8,10 +8,10 @@ class ClientMapseekerPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          'Hola Desde ClientMapseekerPage',
+          'Hola Desde Client Mapseeker Page',
           style: Theme.of(context).textTheme.headlineSmall!.copyWith(
             fontWeight: FontWeight.bold,
-            fontSize: 32,
+            fontSize: 20,
           ),
         ),
       ),

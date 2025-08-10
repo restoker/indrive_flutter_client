@@ -39,7 +39,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<bool> removeUserSession() async {
+  Future<bool> logout() async {
     final result = await sharedPref.remove('user');
     return result;
   }

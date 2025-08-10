@@ -1,5 +1,6 @@
 import 'package:indrive_flutter_client/src/domain/UseCases/auth/get_session_use_case.dart';
 import 'package:indrive_flutter_client/src/domain/UseCases/auth/login_use_case.dart';
+import 'package:indrive_flutter_client/src/domain/UseCases/auth/logout_use_case.dart';
 import 'package:indrive_flutter_client/src/domain/UseCases/auth/register_use_case.dart';
 import 'package:indrive_flutter_client/src/domain/UseCases/auth/save_session_use_case.dart';
 
@@ -8,11 +9,13 @@ class AuthUseCases {
   final RegisterUseCase register;
   final SaveSessionUseCase saveSession;
   final GetSessionUseCase getSession;
+  final LogOutUseCase logOut;
 
   AuthUseCases({
     required this.login,
     required this.register,
     required this.saveSession,
     required this.getSession,
+    required this.logOut,
   });
 }
