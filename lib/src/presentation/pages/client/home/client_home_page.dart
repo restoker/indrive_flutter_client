@@ -150,6 +150,9 @@ class _ClientHomePageState extends State<ClientHomePage> {
                   ListTile(
                     title: Text('Mapa de busqueda'),
                     selected: state.pageIndex == 0,
+                    leading: Icon(Icons.map),
+                    selectedColor: const Color(0xFF00BF6D),
+                    trailing: Icon(Icons.arrow_forward_ios),
                     onTap: () {
                       homeBloc.add(ChangeIndexEvent(indexPage: 0));
                       Navigator.pop(context);
@@ -158,6 +161,9 @@ class _ClientHomePageState extends State<ClientHomePage> {
                   ListTile(
                     title: Text('Perfil de usuario'),
                     selected: state.pageIndex == 1,
+                    leading: Icon(Icons.person_4_rounded),
+                    selectedColor: const Color(0xFF00BF6D),
+                    trailing: Icon(Icons.arrow_forward_ios),
                     onTap: () {
                       homeBloc.add(ChangeIndexEvent(indexPage: 1));
                       Navigator.pop(context);
