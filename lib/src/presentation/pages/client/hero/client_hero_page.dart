@@ -12,10 +12,10 @@ class ClientHeroPage extends StatelessWidget {
         children: [
           // HomeHeader(),
           DiscountBanner(),
-          Categories(),
+          // Categories(),
           SpecialOffers(),
           SizedBox(height: 20),
-          PopularProducts(),
+          PopularMaterials(),
           SizedBox(height: 20),
         ],
       ),
@@ -286,7 +286,7 @@ class SpecialOffers extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: SectionTitle(title: "Special for you", press: () {}),
+          child: SectionTitle(title: "Video Tutoriales", press: () {}),
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -294,13 +294,13 @@ class SpecialOffers extends StatelessWidget {
             children: [
               SpecialOfferCard(
                 image: "https://i.postimg.cc/yY2bNrmd/Image-Banner-2.png",
-                category: "Smartphone",
-                numOfBrands: 18,
+                category: "¿Cómo funciona?",
+                numOfBrands: 1238,
                 press: () {},
               ),
               SpecialOfferCard(
                 image: "https://i.postimg.cc/BQjz4G1k/Image-Banner-3.png",
-                category: "Fashion",
+                category: "¿Cómo funciona?",
                 numOfBrands: 24,
                 press: () {},
               ),
@@ -370,7 +370,7 @@ class SpecialOfferCard extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        TextSpan(text: "$numOfBrands Brands"),
+                        TextSpan(text: "$numOfBrands Reproducciones"),
                       ],
                     ),
                   ),
@@ -413,8 +413,8 @@ class SectionTitle extends StatelessWidget {
   }
 }
 
-class PopularProducts extends StatelessWidget {
-  const PopularProducts({super.key});
+class PopularMaterials extends StatelessWidget {
+  const PopularMaterials({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -422,7 +422,7 @@ class PopularProducts extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: SectionTitle(title: "Popular Products", press: () {}),
+          child: SectionTitle(title: "Precios por materiales", press: () {}),
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
