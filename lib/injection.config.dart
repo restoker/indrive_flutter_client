@@ -14,11 +14,17 @@ import 'package:indrive_flutter_client/src/data/DataSource/local/shared_preferen
     as _i23;
 import 'package:indrive_flutter_client/src/data/DataSource/remote/services/auth_services.dart'
     as _i1070;
+import 'package:indrive_flutter_client/src/data/DataSource/remote/services/user_services.dart'
+    as _i483;
 import 'package:indrive_flutter_client/src/di/app_module.dart' as _i752;
 import 'package:indrive_flutter_client/src/domain/repository/auth_repository.dart'
     as _i706;
+import 'package:indrive_flutter_client/src/domain/repository/users_repository.dart'
+    as _i1018;
 import 'package:indrive_flutter_client/src/domain/UseCases/auth/auth_use_cases.dart'
     as _i1047;
+import 'package:indrive_flutter_client/src/domain/UseCases/user/user_use_cases.dart'
+    as _i123;
 import 'package:injectable/injectable.dart' as _i526;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -30,9 +36,13 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final appModule = _$AppModule();
     gh.factory<_i23.SharedPref>(() => appModule.sharedPref);
+    gh.factoryAsync<String>(() => appModule.token);
     gh.factory<_i1070.AuthService>(() => appModule.authService);
     gh.factory<_i706.AuthRepository>(() => appModule.authRepository);
     gh.factory<_i1047.AuthUseCases>(() => appModule.authUseCases);
+    gh.factory<_i483.UserServices>(() => appModule.userServices);
+    gh.factory<_i1018.UsersRepository>(() => appModule.userRepository);
+    gh.factory<_i123.UserUseCases>(() => appModule.userUseCases);
     return this;
   }
 }

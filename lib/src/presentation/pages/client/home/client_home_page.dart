@@ -191,7 +191,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                     },
                   ),
                   ListTile(
-                    title: Text('Perfil de usuario'),
+                    title: Text('Mi Perfil'),
                     selected: state.pageIndex == 2,
                     leading: Icon(Icons.person_4_rounded),
                     selectedColor: const Color(0xFF00BF6D),

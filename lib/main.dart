@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:indrive_flutter_client/injection.dart';
 import 'package:indrive_flutter_client/src/domain/UseCases/auth/auth_use_cases.dart';
+import 'package:indrive_flutter_client/src/domain/UseCases/user/user_use_cases.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/login/bloc/login_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/register/bloc/register_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/auth/router.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/client/home/bloc/home_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/client/route.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/profile/info/bloc/profile_info_bloc.dart';
+import 'package:indrive_flutter_client/src/presentation/pages/profile/update/bloc/profile_update_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/profile/update/profile_update_page.dart';
 
 void main() async {
@@ -39,6 +41,12 @@ class MyApp extends StatelessWidget {
         BlocProvider<ProfileInfoBloc>(
           create: (context) =>
               ProfileInfoBloc(locator<AuthUseCases>())..add(GetUserEvent()),
+        ),
+        BlocProvider<ProfileUpdateBloc>(
+          create: (context) => ProfileUpdateBloc(
+            userUseCases: locator<UserUseCases>(),
+            authUseCases: locator<AuthUseCases>(),
+          ),
         ),
       ],
       child: MaterialApp(
