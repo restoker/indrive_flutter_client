@@ -17,21 +17,23 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
       appBar: AppBar(
         centerTitle: false,
         elevation: 0,
-        backgroundColor: const Color(0xFF00BF6D).withAlpha(200),
-        // foregroundColor: Colors.white,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: <Color>[Colors.lime, Colors.white],
+            ),
+          ),
+        ),
+        foregroundColor: Colors.black,
         title: const Text(
           "Editar Perfil",
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 25.0,
             fontStyle: FontStyle.italic,
-          ),
-        ),
-        flexibleSpace: ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-            child: Container(color: Colors.transparent),
           ),
         ),
       ),

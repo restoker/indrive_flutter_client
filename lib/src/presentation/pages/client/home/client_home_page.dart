@@ -26,11 +26,19 @@ class _ClientHomePageState extends State<ClientHomePage> {
     final homeBloc = context.read<HomeBloc>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF00BF6D),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: <Color>[Colors.lime, Colors.white],
+            ),
+          ),
+        ),
         title: Text(
           'Re-cicle',
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 25.0,
             fontStyle: FontStyle.italic,
@@ -38,6 +46,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
         ),
         centerTitle: true,
         actions: [],
+        elevation: 0,
       ),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {

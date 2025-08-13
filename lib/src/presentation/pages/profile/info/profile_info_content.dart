@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/profile/info/bloc/profile_info_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/widgets/index.dart';
@@ -74,23 +75,32 @@ class ProfileInfoContent extends StatelessWidget {
               style: TextStyle(fontSize: 23.0, fontWeight: FontWeight.bold),
             ),
           ),
-          Text(
-            profileInfoBloc.state.user?.email ?? '',
-            style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 1.5,
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            child: Text(
+              profileInfoBloc.state.user?.email ?? '',
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
             ),
           ),
-          Text(
-            profileInfoBloc.state.user?.telefono ?? '',
-            style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 1.5,
+          GestureDetector(
+            onTap: () {
+              Clipboard.setData(
+                ClipboardData(text: profileInfoBloc.state.user?.telefono ?? ''),
+              ).then((_) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text("Teléfono copiado")));
+              });
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 5.0),
+              child: Text(
+                profileInfoBloc.state.user?.telefono ?? '',
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
+              ),
             ),
           ),
-          SizedBox(height: 20.0),
+          SizedBox(height: 60.0),
           ListTile(
             splashColor: Colors.amber,
             title: Text(
