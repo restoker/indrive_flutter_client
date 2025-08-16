@@ -123,9 +123,9 @@ class _LoginPageState extends State<LoginPage> {
                             Fluttertoast.showToast(
                               msg: state.userResponse!.msg,
                               toastLength: Toast.LENGTH_LONG,
-                              gravity: ToastGravity.BOTTOM,
+                              gravity: ToastGravity.TOP,
                               timeInSecForIosWeb: 2,
-                              backgroundColor: Colors.green,
+                              backgroundColor: Colors.cyan,
                               textColor: Colors.white,
                               fontSize: 16.0,
                             );

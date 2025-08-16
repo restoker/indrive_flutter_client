@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:indrive_flutter_client/main.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/client/home/bloc/home_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/profile/info/bloc/profile_info_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/widgets/index.dart';
@@ -129,7 +130,15 @@ class ProfileInfoContent extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
             ),
             onTap: () {
-              context.read<HomeBloc>().add(LogOutEvent());
+              final homeBloc = context.read<HomeBloc>();
+              homeBloc.add(LogOutEvent());
+              // if (homeBloc.state.homePageStatus == HomePageStatus.valid) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => MyApp()),
+                (route) => false,
+              );
+              // }
             },
             leading: Container(
               padding: EdgeInsets.all(10.0),

@@ -1,6 +1,6 @@
 part of 'home_bloc.dart';
 
-enum HomePageStatus { valid, invalid, error }
+enum HomePageStatus { valid, invalid, error, logout }
 
 class HomeState extends Equatable {
   final int pageIndex;
