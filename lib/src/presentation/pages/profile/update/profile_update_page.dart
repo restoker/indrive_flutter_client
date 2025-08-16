@@ -33,7 +33,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
             as User;
     // final profileUpdateBloc = context.read<ProfileUpdateBloc>();
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      // extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: false,
         elevation: 0,
@@ -57,48 +57,58 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          // Container(
-          //   decoration: BoxDecoration(
-          //     image: DecorationImage(
-          //       image: AssetImage("assets/img/profile_background.jpg"),
-          //       fit: BoxFit.cover,
-          //     ),
-          //   ),
-          // ),
-          BlocListener<ProfileUpdateBloc, ProfileUpdateState>(
-            listener: (context, state) {
-              late UserResponse? userResponse = state.response;
-              if (userResponse != null) {
-                if (!userResponse.ok) {
-                  Fluttertoast.showToast(
-                    msg: userResponse.msg,
-                    backgroundColor: Color.fromRGBO(255, 0, 0, 0.5),
-                    textColor: Colors.white,
-                  );
-                } else {
-                  User user = userResponse.user!;
-                  Fluttertoast.showToast(
-                    msg: userResponse.msg,
-                    backgroundColor: Color.fromRGBO(0, 255, 0, 0.5),
-                  );
-                  context.read<ProfileUpdateBloc>().add(
-                    UpdateUserSesion(user: user),
-                  );
-                  Future.delayed(Duration(seconds: 1), () {
-                    context.read<ProfileInfoBloc>().add(GetUserEvent());
-                  });
-                }
-              }
-            },
-            child: BlocBuilder<ProfileUpdateBloc, ProfileUpdateState>(
-              builder: (context, state) {
-                return ProfileUpdateContent(user: user!, state: state);
-              },
-            ),
+      body: Container(
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.lime.shade100, Colors.white],
           ),
-        ],
+        ),
+        child: Stack(
+          children: [
+            // Container(
+            //   decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //       image: AssetImage("assets/img/profile_background.jpg"),
+            //       fit: BoxFit.cover,
+            //     ),
+            //   ),
+            // ),
+            BlocListener<ProfileUpdateBloc, ProfileUpdateState>(
+              listener: (context, state) {
+                late UserResponse? userResponse = state.response;
+                if (userResponse != null) {
+                  if (!userResponse.ok) {
+                    Fluttertoast.showToast(
+                      msg: userResponse.msg,
+                      backgroundColor: Color.fromRGBO(255, 0, 0, 0.5),
+                      textColor: Colors.white,
+                    );
+                  } else {
+                    User user = userResponse.user!;
+                    Fluttertoast.showToast(
+                      msg: userResponse.msg,
+                      backgroundColor: Color.fromRGBO(0, 255, 0, 0.5),
+                    );
+                    context.read<ProfileUpdateBloc>().add(
+                      UpdateUserSesion(user: user),
+                    );
+                    Future.delayed(Duration(seconds: 1), () {
+                      context.read<ProfileInfoBloc>().add(GetUserEvent());
+                    });
+                  }
+                }
+              },
+              child: BlocBuilder<ProfileUpdateBloc, ProfileUpdateState>(
+                builder: (context, state) {
+                  return ProfileUpdateContent(user: user!);
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -155,7 +155,11 @@ class DiscountBanner extends StatelessWidget {
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
-        color: const Color(0xFF00BF6D),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomRight,
+          colors: <Color>[Colors.lime, Colors.white],
+        ),
         borderRadius: BorderRadius.circular(20),
       ),
       child: SizedBox(
@@ -171,7 +175,7 @@ class DiscountBanner extends StatelessWidget {
                 Text.rich(
                   textAlign: TextAlign.start,
                   TextSpan(
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(text: "Empieza a reciclar\n"),
                       TextSpan(
@@ -188,7 +192,7 @@ class DiscountBanner extends StatelessWidget {
                           child: Icon(
                             Icons.pan_tool_alt_rounded,
                             size: 24,
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         ),
                       ),
@@ -197,13 +201,16 @@ class DiscountBanner extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(width: 20),
+            const SizedBox(width: 10),
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 253, 255, 254),
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
               ),
-              child: Text('Empezar'),
+              child: Row(
+                children: [Text('Empezar'), Icon(Icons.delete_sweep_outlined)],
+              ),
             ),
           ],
         ),

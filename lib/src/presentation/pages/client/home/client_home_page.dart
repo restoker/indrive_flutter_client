@@ -6,7 +6,6 @@ import 'package:indrive_flutter_client/src/presentation/pages/client/hero/client
 import 'package:indrive_flutter_client/src/presentation/pages/client/home/bloc/home_bloc.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/client/mapseeker/client_mapseeker_page.dart';
 import 'package:indrive_flutter_client/src/presentation/pages/profile/info/profile_info_page.dart';
-// import 'package:rive/rive.dart' as rive;
 
 class ClientHomePage extends StatefulWidget {
   const ClientHomePage({super.key});

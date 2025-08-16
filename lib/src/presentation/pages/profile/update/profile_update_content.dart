@@ -13,11 +13,11 @@ class ProfileUpdateContent extends StatelessWidget {
   const ProfileUpdateContent({
     super.key,
     required this.user,
-    required this.state,
+    // required this.state,
   });
 
   final User user;
-  final ProfileUpdateState state;
+  // final ProfileUpdateState state;
   @override
   Widget build(BuildContext context) {
     final updateBloc = context.read<ProfileUpdateBloc>();
@@ -28,10 +28,10 @@ class ProfileUpdateContent extends StatelessWidget {
           ProfilePic(
             updateBloc: updateBloc,
             image: user.image ?? 'https://i.postimg.cc/cCsYDjvj/user-2.png',
-            state: state,
+            state: updateBloc.state,
           ),
           Form(
-            key: state.formkey,
+            key: updateBloc.state.formkey,
             child: Column(
               children: [
                 DefaultTextFieldOutline(
@@ -44,7 +44,7 @@ class ProfileUpdateContent extends StatelessWidget {
                     );
                   },
                   validator: (p0) {
-                    return state.nombre.error;
+                    return updateBloc.state.nombre.error;
                   },
                 ),
                 Gap(10),
@@ -67,7 +67,7 @@ class ProfileUpdateContent extends StatelessWidget {
                     );
                   },
                   validator: (p0) {
-                    return state.telefono.error;
+                    return updateBloc.state.telefono.error;
                   },
                 ),
                 Gap(10),
@@ -87,7 +87,7 @@ class ProfileUpdateContent extends StatelessWidget {
                     );
                   },
                   validator: (p0) {
-                    return state.password.error;
+                    return updateBloc.state.password.error;
                   },
                 ),
                 Gap(10),
@@ -101,7 +101,7 @@ class ProfileUpdateContent extends StatelessWidget {
                     );
                   },
                   validator: (p0) {
-                    return state.newPassword.error;
+                    return updateBloc.state.newPassword.error;
                   },
                 ),
               ],
@@ -135,8 +135,8 @@ class ProfileUpdateContent extends StatelessWidget {
                     shape: const StadiumBorder(),
                   ),
                   onPressed: () {
-                    if (state.formkey!.currentState != null) {
-                      if (state.formkey!.currentState!.validate()) {
+                    if (updateBloc.state.formkey!.currentState != null) {
+                      if (updateBloc.state.formkey!.currentState!.validate()) {
                         updateBloc.add(UpdateFormSubmit(id: user.id!));
                       }
                     } else {

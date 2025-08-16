@@ -11,7 +11,7 @@ class ProfileInfoPage extends StatelessWidget {
     return BlocBuilder<ProfileInfoBloc, ProfileInfoState>(
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
+          // backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
           body: Container(
             height: double.infinity,
             decoration: BoxDecoration(
