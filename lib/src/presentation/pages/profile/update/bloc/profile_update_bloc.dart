@@ -165,7 +165,11 @@ class ProfileUpdateBloc extends Bloc<ProfileUpdateEvent, ProfileUpdateState> {
       state.password.value,
       state.image,
     );
-    emit(state.copyWith(loading: false, response: response));
+    if (response.ok) {
+      emit(state.copyWith(loading: false, response: response));
+    } else {
+      emit(state.copyWith(loading: false));
+    }
   }
 
   _updateUserSesion(UpdateUserSesion event, emit) async {

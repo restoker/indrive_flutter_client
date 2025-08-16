@@ -108,6 +108,23 @@ class ProfileUpdateContent extends StatelessWidget {
             ),
           ),
           Gap(20),
+          Text(
+            'Nota: ',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+          Text(
+            '"Si va a modificar su contraseña, su sessión sera cerrada automaticamente"',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+          Gap(20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
